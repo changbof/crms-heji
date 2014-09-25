@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            var myax = new ActiveXObject("jiccax.JICCAx.1");
+            //登陆
+            function login() {              
+                myax.login("192.168.1.189");
+            }
+            /*
+            //注册
+            function regist() {
+                myax.regist("803");
+            
+            
+            }
+            //注销
+            function logout() {
+                myax.logout();
+                document.getElementById("msg").innerHTML="logout";
+
+            }
+            //呼叫保持
+            function hold() {
+                myax.holdCall();
+            }
+            //置忙
+            function setbusy() {
+                myax.setbusy();
+            }
+            //置闲
+            function setfree() {
+                myax.setfree();
+            }
+            //会议
+            function conference() {
+                myax.conference(document.getElementById("callerid"));
+            }
+            //转移
+            function transfer() {
+                myax.transfer(document.getElementById("callerid"));
+            }
+
+            */
+
+            function eventHandler(){
+                function myax::loginResult(nVal) {
+                    alert("登陆结果：" +  nVal);
+                    //note: 1 ==> succeed, 0==>failed
+                }
+
+                function myax::newCall(orentation, extension, callerid, uniqueid) {
+                    alert("方向："+orentation + "\n分机："+ extension +"\n来电：" +callerid+ "\nID：" + uniqueid);
+                }
+         
+                function myax::log(msg) {
+                   // document.getElementById("log").innerHTML = msg;
+                
+                }
+                /*
+                function myax::registResult(nVal) {
+                    alert(nVal);
+                }
+                function myax::testEvent() {
+                    alert("testEvent");
+                }
+                */
+            }
+            eventHandler();
+        </script>
+    </head>
+    <body>
+        <button type="button"  onclick="login()" >click me!</button><br>
+        <!--
+        <button type="button"  onclick="regist()">regist</button><br>
+        <button type="button"  onclick="logout()" >logout</button><br>
+        <button type="button"  onclick="conference()" >conference</button><br>
+        <button type="button"  onclick="transfer()" >transfer</button><br>
+        <button type="button"  onclick="setbusy()" >setbusy</button><br>
+        <button type="button"  onclick="setfree()" >setfree</button><br>
+        -->
+
+    </body>
+</html>

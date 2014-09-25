@@ -1,0 +1,90 @@
+sup{color:red;}
+#loading{
+    z-index:1;
+    padding:5px 0 5px 9px;
+    background:#c44;
+    right:0;top:41px;
+    width:90px;
+    color:#fff;
+    position:fixed;
+    display: none;
+}
+.lead-top {
+    margin-top:1em;
+}
+
+.brand.brand-active {
+    color:#fff;
+}
+
+.bb-code {
+    font-family:"Courier";
+    font-size:1.2em;
+}
+
+.bb-code-small {
+    font-size:0.9em;
+}
+
+.bb-alert {
+	z-index:2000;
+	width:auto;
+    position:fixed;
+    bottom:75%;
+    right:40%;
+    margin-bottom:0;
+    font-size:1.2em;
+    padding:1em 1.3em;
+	border-radius:4px 4px 4px 4px;
+}
+
+.icon {
+	color:#333333;
+}
+.table-striped tbody tr.highlight td
+{
+    background-color: #E7F0C2;
+}
+input[type="radio"], input[type="checkbox"] {
+    width:16px;
+    height:16px;
+    margin-top:2px;
+}
+.block-heading{
+    padding-right:1em;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.block-heading.btn-toolbar{
+    margin-top:0;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover{
+    border-bottom-color: #fff;
+}
+
+.control-inline{float:left;margin-right:20px;}
+
+blockquote{
+    border-bottom: 1px dotted #F79B25;
+    margin-top:20px;
+    border-color:#F79B25;
+}
+blockquote p{
+    margin-bottom: 0;
+    font-size: 24px;
+    font-weight: bolder;
+    line-height: 30px;
+    color:#F79B25;
+}
+
+.navbar.navbar-fixed-top{position: fixed;}
+div .control-inline{margin-top:0;margin-bottom: 0;}
+
+#date-picker
+{
+    margin: 0px 0px 0 20px;
+    padding: 0;
+    clear: both;
+    overflow: hidden;
+}

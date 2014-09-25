@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>说明-QGYWebIM</title>
+		<style type="text/css">
+			body			{	margin:0;font-size:0.85em;line-height:160%;background-color:#2175bc;text-align:center;}
+			div#container	{	border:1px solid #666;background-color:#fff;padding:1.6em 1.9em;width:800px;margin:auto;text-align:left;}
+			div#copyRight	{	text-align:right;padding:0.3em;border-top:1px solid #aaa;margin-top:0.7em;}
+			img				{	margin-bottom:0.7em;border:none;}
+			dl				{	border-top:1px solid #aaa;margin-top:5px;}
+			dt				{	font-size:1em;font-weight:bold;color:#000080;margin-top:0.3em;padding-left:0.3em;}
+			dd				{	margin-left:1.3em;}
+			dd.title		{	margin-left:1em;font-weight:bold;margin-top:0.7em;color:#2175bc;}
+			a				{	color:#00f;}
+		</style>
+	</head>
+	<body>
+<div id="container">
+<dl><dt>概述：</dt>
+<dd>
+QGYWebIM是一个基于Ajax的Web聊天系统，她的界面高度模仿Windows Live Messager8.5，能兼容主流浏览器。整个程序代码风格简单高效，运行起来十分流畅，用户体验良好。
+</dd>
+<dd>测试地址(ASP+ACCESS)：<a href="http://www.shufou.com/chat" target="_blank">http://www.shufou.com/chat</a></dd>
+<dd>测试地址(PHP+MYSQL)：<a href="http://www.qgy18.com/lab/webim" target="_blank">http://www.qgy18.com/lab/webim</a></dd>
+<dd>运行截图：<a href="http://picasaweb.google.com/quguangyu/QGYWebIM" target="_blank">http://picasaweb.google.com/quguangyu/QGYWebIM</a></dd>
+</dl>
+
+<dl><dt>版权声明：</dt>
+<dd>本程序是Jerry Qu出于学习和研究的目的编写而成，供大家交流之用。<span style="color:red">未经作者允许，禁止将本程序以任何形式用于商业用途</span>。部分图片版权归Windows Live Messager(R)所有，其余部分版权归Jerry Qu所有。</dd>
+</dl>
+
+<dl><dt>使用说明：</dt>
+<dd>1）ASP+ACCESS版本：此版本采用asp+access设计，仅仅需要IIS的支持。不过为了方便的修改数据库，建议安装ACCESS2003或以上版本；</dd>
+<dd>安装步骤：</dd>
+<dd><ul>
+<li>将压缩文件解压缩到某个文件夹；</li>
+<li>在IIS中将网站路径指到刚刚那个文件夹。QGYWebIM并不需要放在网站根目录；</li>
+<li>确保程序对DataBase(数据库文件)和UserFace(自定义头像)这两个文件夹有写入权限；</li>
+<li>在浏览器中输入WebIM起始地址。如果是放在根目录则为http://localhost，依次类推；</li>
+<li>默认用户及密码：admin@admin.com(超级管理员)/test@test.com(普通用户)，密码均为123456。</ul></dd>
+<dd>2）PHP+MYSQ版本：此版本采用时下流行的php+mysql编写，在php5+mysql5，windows/linux，IIS/Apache中测试通过；</dd>
+<dd>安装步骤：</dd>
+<dd><ul>
+<li>将压缩文件解压缩到某个文件夹；</li>
+<li>在web服务器(推荐Apache2.2)中将网站路径指到刚刚那个文件夹。QGYWebIM并不需要放在网站根目录；</li>
+<li>用phpmyadmin导入网站根目录下的webim.sql数据库结构文件；</li>
+<li>用文本编辑器打开install.php文件，安装初始数据，根据实际需求修改配置；</li>
+<li>在浏览器地址栏浏览install.php，根据提示操作。</ul></dd>
+</dl>
+
+<dl><dt>详细功能列表：</dt>
+<dd><ul>
+	<li>注册、登录，登录支持记住帐号、记住密码和自动登陆选项</li>
+	<li>修改本人状态、签名并通知给好友</li>
+	<li>修改本人档案</li>
+	<li>好友列表的状态、组别排序以及大图标显示</li>
+	<li>添加、屏蔽、删除好友</li>
+	<li>查看聊天记录，支持下载到本地</li>
+	<li>发送、接收带图片表情的消息</li>
+	<li>发送、接受闪屏振动</li>
+	<li>主面板根据姓名、邮箱搜索好友功能</li>
+	<li>系统设置</li>
+	<li>添加、修改好友昵称</li>
+	<li>联系人卡片</li>
+	<li>三种(好友上线、新消息、闪屏)声音提示</li>
+	<li>增加了组别的增改删以及更换好友分组(仅在按分组排序下才有相应菜单)</li>
+	<li>同一帐号如果登录两次，先登录的会退出</li>
+</ul></dd>
+</dl>
+
+<dl><dt>技术支持：</dt>
+<dd>你可以访问<a href="http://www.qgy18.com" target="_blank">我的blog</a>来获取本软件的最新消息，例如新版本发布、BUG修复等(教育网用户可能需要用http://anriy000.512j.com来访问)。</dd>
+<dd>如果你对本系统有好的建议和意见，也可以直接加我(Jerry Qu)的IM来交流：QQ 283592468，MSN quguangyu18@hotmail.com，GTALK/GMAIL quguangyu@gmail.com</dd>
+</dl>
+
+<div id="copyRight">
+All Rights Reserved © 2008-2010 <a href="http://www.qgy18.com" target="_blank">http://www.qgy18.com</a>
+</div>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5422922-1");
+pageTracker._trackPageview();
+</script>
+
+	</body>
+</html>

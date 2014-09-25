@@ -1,0 +1,8 @@
+//Adding Dynamic Tab in BootStrap Tabs
+
+$('div.active').removeClass('active').removeClass('in');
+$('li.active').removeClass('active');
+
+$('#myTabContent').append('<div class="tab-pane in active" id="new_tab_id"><p> Loading content ...</p></div>');
+$('#tab').append('<li><a href="#new_tab_id" data-toggle="tab">Tab Name</a></li>');
+$('#tab a:last').tab('show');
