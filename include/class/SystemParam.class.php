@@ -30,7 +30,7 @@ class SystemParam extends Base{
 		$db=self::__instance();
 		$condition['param_name'] = $param_name;
 		$result = $db->get ( self::getTableName(),'param_value',$condition );
-		return isset($result)?$result:0;
+		return isset($result)?$result+1:0;
 	}
 
 	public static function setValue($param_name,$param_value){
