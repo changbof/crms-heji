@@ -41,7 +41,7 @@ int main() {
 }
 
 ```
-> 其他语言的代码高亮示例请查看文档[Raysnote代码高亮示例](/notes/d955bad3fde04cc8860e9d105f2b1334)。
+
 
 ### MathJax 公式[^math]
 $$   P(E)   = {n \choose k} p^k (1-p)^{ n-k}   $$
@@ -55,8 +55,5 @@ $$   P(E)   = {n \choose k} p^k (1-p)^{ n-k}   $$
 
 
 ## 相关链接
-- [Markdown简明语法速成](/markdown-get-started)
-- [数学公式示例](/math-examples)
-- [代码高亮示例](/code-examples)
-- [反馈和建议](/advise)
+
 
