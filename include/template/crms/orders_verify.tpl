@@ -66,17 +66,15 @@
                         <{else}>
                             <{html_options name="shipped_express" class="input-medium" options=$expressCompany_options selected=$orders.shipped_express }>
                         <{/if}>
-                        <{if $orders.express_no!=''}>&nbsp;&nbsp;&nbsp;&nbsp;运单号: <{$orders.express_no}><{/if}>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">订单跟踪</label>
                     <div class="controls">
-                        <textarea rows="6" name="shipping_detail" class="input-medium" disabled="disabled">
-                            <{foreach from=$shipping_detail.data item=foo }>
-                            <{$foo.time}>  <{$foo.context}>
-                            <{/foreach}>
-                        </textarea>
+                        <span class="input-medium uneditable-input input-underline">
+                            <{if $orders.express_no!=''}><a href="#" id="example" class="btn btn-success" rel="popover">hover for popover</a><{/if}>
+
+                        </span>
                     </div>
                 </div>
 		</div>
@@ -123,3 +121,16 @@
 	</div>
 </form>
 </div>
+<div id="wl-midtrace">
+    <ul>
+        <li>
+            <span class="wl-stream-time">2014-10-12 13:04:37</span>
+            <span class="wl-stream-text">卖家已发货</span>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#example").popover({title: 'Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
+    });
+</script>

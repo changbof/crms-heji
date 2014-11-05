@@ -289,16 +289,18 @@
 			var bbd=bootbox.dialog(rspDate,	btn, {"header":header + title,"classes": "modal-large"});
 			//订单change事件
 			bbd.find('input:radio[name=status]').on('change',function(){
-				if( $.inArray($(this).val(),['canceling','refused']) >=0 ){
+				if( $.inArray( $(this).val(),['canceling','refused']) >=0 ){
 					$('#cancelNote').attr("required","true").show();
 				}else{
 					$('#cancelNote').removeAttr("required").hide();
 				}
 			});
+            bbd.find("#example").popover({title: 'Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
 		}});
 	}
 
 	$(document).ready(function() {
+
 		//指定600秒刷新一次
 		setTimeout(function(){myrefresh();},600000);
 		//日期时间选择器

@@ -10,6 +10,7 @@ $productName = $item_spec = $item_remark = '';
 $shipped_express = $express_no = $orders_address = $o_address = $orders_tel = $o_mobile = '';
 $customer_type='';
 $nutrientscase='';
+$express_no='';
 
 //沟通记录
 $sale_id = $sale_date = $sale_product = $sale_content = $sale_analysis = $sale_effect = $orders_id = $vested = $remark = '';
@@ -201,6 +202,9 @@ if ( $method=="ajax_processOrders" ) {
 				$orders_data['verify_note'] = $note;
                 $orders_data['shipped_express'] = $shipped_express;
                 $orders_data['nutrientscase'] = $nutrientscase;
+
+                $customer_type=5; //成交客户
+                $success = true ;
 				break;
 			case 'shipped': //第五步:已发货[仓储部]
 				$orders_data['shipped_date'] 	= $nowTime;
@@ -215,16 +219,17 @@ if ( $method=="ajax_processOrders" ) {
 				$orders_data['finish_date'] = $nowTime;
 				$orders_data['finished'] = 'end';
 
-                $customer_type=8; //成交客户
+                $customer_type=7; //成交客户
 				$success = true ;
 				break;
 			case 'refused': //第七步:退签[物流部]
 				$orders_data['refused_date'] = $nowTime;
 				$orders_data['refused_note'] = $note;
 				$orders_data['finish_date'] = $nowTime;
-				$orders_data['finished'] = 'interrupt';
+                $orders_data['finished'] = 'interrupt';
 
-                $customer_type=9; //退单客户
+                $customer_type=6; //退单客户
+                $success = true ;
 				break;
 			case 'canceling': //第1-4步:取消申请中[销售代表] 发货后不可取消
 				$orders_data['cancel_date'] = $nowTime;
@@ -233,8 +238,6 @@ if ( $method=="ajax_processOrders" ) {
 			case 'cancel': //取消审核[销售经理]
 				$orders_data['finish_date'] = $nowTime;
 				$orders_data['finished'] = 'interrupt';
-
-                $customer_type=7;//意向订单
 				break;
 		}
 		if($gift!=""){
@@ -386,4 +389,43 @@ if ( $method=="ajax_deleteOrdersItem" ) {
     }
     echo json_encode($result);
 }
+
+//订单跟踪
+if($method=="ajax_expresstrack" && $express_no!=''){
+    $data = array(
+        'id'    => EXP_ID ,
+        'secret'=> EXP_SECRET ,
+        'com'   => 'auto', //$myOrders['shipped_express'] ,
+        'nu'    => $myOrders['express_no'] ,
+        'type'  => EXP_TYPE ,
+        'encode'=> EXP_ENCODE ,
+        'ord'   => EXP_ORD ,
+    );
+    // post and get fileContent by curl
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, EXP_URL);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $file_contents = curl_exec($ch);
+
+    if (curl_errno($ch))
+    {
+        $shipping_detail = array(
+            'data'=>array(
+                'time'=>date('Y-m-d'),
+                'content'=>'对不起,由于快递公司查询服务器延时,没有查询到物流信息,请稍后再试!',
+            ),
+        );
+        $shipping_detail = json_encode($shipping_detail);
+    }
+    curl_close($ch);
+
+    echo $shipping_detail;
+
+}
+
 ?>

@@ -59,7 +59,7 @@ if($method == 'autoassign'){
 				'assign_date'   => $nowtime,
 				'status'		=> 'assigned',
                 'type'          => '-1',
-                'expiration_date'=>date('Y-m-d',strtotime("+2 day")),
+                'expiration_date'=>date('Y-m-d',strtotime("+4 day")),
                 "update_date"   =>$nowtime,
                 "updater"       =>1,
 

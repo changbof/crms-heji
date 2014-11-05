@@ -40,7 +40,7 @@
 				<a href="disease_modify.php?a=view&p=_blk&disease_id=<{$disease.id}>" target="_blank" title= "查看" ><i class="icon-eye-open"></i></a>&nbsp;&nbsp;
 				<{if $user_group ==1 || $disease.owner_id == $current_user_id }>
 				<a href="disease_modify.php?p=_blk&disease_id=<{$disease.id}>" target="_blank" title= "修改" ><i class="icon-pencil"></i></a>&nbsp;&nbsp;
-				<a data-toggle="modal" href="#myModal"  title= "删除" ><i class="icon-remove" href="diseases.php?method=del&disease_id=<{$disease.id}>#myModal" data-toggle="modal" ></i></a>
+				<a data-toggle="modal" href="#myModal"  title= "删除" ><i class="icon-trash" href="diseases.php?method=del&disease_id=<{$disease.id}>#myModal" data-toggle="modal" ></i></a>
 				<{/if}>
 				</td>
 				</tr>

@@ -1,6 +1,6 @@
 <?php
 if(!defined('ACCESS')) {exit('Access denied.');}
-class Sms extends Base {
+class Express extends Base {
 	// 表名
 	private static $table_name = 'sms';
 	// 查询字段

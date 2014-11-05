@@ -36,6 +36,9 @@
 
   <style type="text/css">
     body{padding-top:40px;}
+    footer{padding:1em;}
+    footer hr{margin:1em 0em;}
+    footer p span.pull-right{margin:0em 0em 1em;}
     #line-chart {
       height:300px;
       width:800px;

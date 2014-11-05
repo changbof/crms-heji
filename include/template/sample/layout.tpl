@@ -31,6 +31,12 @@
 }
 ul.inline li{display:inline-block;padding:2px 4px;width:120px;}
 </style>
+<div class="container">
+    <h2>Example of creating Popover with Bootstrap with title and content options</h2>
+    <div class="well">
+        <a href="#" id="example" class="btn btn-success" rel="popover">hover for popover</a>
+    </div>
+</div>
 <div class="well">
 <select id="sel0" class="selectpicker" data-live-search="true" data-size="10" data-width="150px">
     <option data-subtext="Heinz1" value="1">维生素</option>
@@ -269,7 +275,10 @@ ul.inline li{display:inline-block;padding:2px 4px;width:120px;}
   <script type="text/javascript">
   $(document).ready(function() {
 	$('.selectpicker').selectpicker();
+    $("#example").popover({title: 'Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
   });
+
+
   </script>
 <!-- TPLEND 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
 <{include file="footer.tpl" }>

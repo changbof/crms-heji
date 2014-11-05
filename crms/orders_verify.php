@@ -21,6 +21,7 @@ $expressCompany_options = Dict::getDictForOptionsByKeyName('expresscompany');
 $expressCompany_options['']="－请选择－";
 
 //订单跟踪
+/*
 if($myOrders['shipped_express']!='' && $myOrders['express_no']!=''){
     $data = array(
         'id'    => EXP_ID ,
@@ -58,12 +59,12 @@ if($myOrders['shipped_express']!='' && $myOrders['express_no']!=''){
     //$url=EXP_URL."?id=".EXP_ID."&secret=".EXP_SECRET."&com=".$myOrders['shipped_express']."&nu=".$myOrders['express_no']."&type=".EXP_TYPE."&encode=".EXP_ENCODE."&ord=".EXP_ORD;
     //$file_contents = file_get_contents($url);
     //$shipping_detail = json_decode($file_contents,true);
-}
+}*/
 
 Template::assign ('a',$a);
 Template::assign ('orders',$myOrders);
 Template::assign ('items',$items);
-Template::assign ('shipping_detail',$shipping_detail);
+//Template::assign ('shipping_detail',$shipping_detail);
 Template::assign ('ordersstatus_array',$ordersstatus_options);
 Template::assign ('expressCompany_options',$expressCompany_options);
 Template::display('crms/orders_verify.tpl' );

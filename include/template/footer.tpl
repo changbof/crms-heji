@@ -1,7 +1,12 @@
 
 				<footer>
+                    <p>北京东方和济医疗科技有限公司  版权所有</p>
                     <hr>
-                    <p class="pull-right">Customer Management System.</p>
+                    <p style="text-align: center;">
+                        <span class="pull-right">Customer Management System.</span>
+                        <span>营养咨询热线：400-0070-100 或 010-8103 1881</span>
+                    </p>
+                    <p style="text-align: center"><span>医学化验报告接受传真：400-6981-163 转 221542</span></p>
                 </footer>
 			</div>
 		</div>
