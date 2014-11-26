@@ -7,6 +7,12 @@
 <{$osadmin_quick_note}>
 <style type="text/css">
 	.btn-group small.btn{padding:4px 6px;}
+    .popover{
+        z-index:1060;
+        width:500px;
+        min-height:300px;
+        overflow:auto;
+    }
 </style>
 <div class="">
 	<form class="form_search" action="" method="GET" style="margin-bottom:0px" id="myorders-form">
@@ -255,6 +261,16 @@
 		}});
 	}
 
+    var getWlMidtrace = function(data,nu) {
+        var str_html = '<div id="wl-midtrace"><ul>';
+        jQuery.each( data, function( i, json ) {
+            str_html += '<li><span class="wl-stream-time">'+json['time']+'</span>';
+            str_html += '<span class="wl-stream-text">'+json['context']+'</span></li>';
+        });
+        str_html += '</ul></div>';
+        return str_html;
+    };
+
 	//跟踪处理订单状态及明细查看
 	function openModalforProcess(url,title){
 		var header = url.indexOf('_verify')>0?(url.indexOf('a=view')>0?'查看订单: ':'订单审核: '):'订单跟踪处理: ';
@@ -285,8 +301,11 @@
 				}
 			},{"label" : "关闭", "class" : "btn"}]
 		}
-		jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate) {
+		jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate){
 			var bbd=bootbox.dialog(rspDate,	btn, {"header":header + title,"classes": "modal-large"});
+			bbd.on('hide',function(){
+			    $('#example').popover('destroy');
+			});
 			//订单change事件
 			bbd.find('input:radio[name=status]').on('change',function(){
 				if( $.inArray( $(this).val(),['canceling','refused']) >=0 ){
@@ -295,9 +314,42 @@
 					$('#cancelNote').removeAttr("required").hide();
 				}
 			});
-            bbd.find("#example").popover({title: 'Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
-		}});
+            bbd.find("#example").on('mouseenter',function(){
+                $this = $(this);
+                if($(this).attr('data-show')!=1) {
+                    $this.popover({content:'正在努力加载中...'}).popover('show');
+                    var expressNo = $(this).attr("data-v");
+                    var formData = 'method=ajax_expresstrack&express_no=' + expressNo;
+                    jQuery.ajax({
+                        type: 'get',
+                        url: '<{$smarty.const.ADMIN_URL}>/ajax/orders.php',
+                        data: formData,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data['status'] > 0) {
+                                $this.attr('data-show', '1');
+                                if($this.data('popover')!=null){
+                                    $this.popover('hide');
+                                    $this.removeData('popover');
+                                }
+                                $this.attr('data-content', getWlMidtrace(data['data'], expressNo));
+                                $this.popover('show');
+                            }else {
+                                $this.attr('data-show', '0');
+                                $this.attr('data-content','还没有物流信息哦!');
+                                $this.popover('show');
+                            }
+                        }
+                    });
+                }else {
+                    $this.popover('show');
+                }
+            }).on('mouseleave',function(event) {
+                $(this).popover('hide');
+            });
+        }});
 	}
+
 
 	$(document).ready(function() {
 

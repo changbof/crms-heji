@@ -30,7 +30,7 @@ class Pagination{
 		$page_no=$page_no<1?1:$page_no;
 		$page_no=$page_no>($total_page)?($total_page):$page_no;
 		if ($page_no > 1){
-			$navibar .= "<li><a href=\"$url?$params&page_no=1\">首页</a></li>\n <li><a href=\"$url?$params&page_no=".($page_no-1)." \">上一页</a></li>\n";
+			$navibar .= "<li><a href=\"$url?$params&page_no=1&page_size=".$page_size."\">首页</a></li>\n <li><a href=\"$url?$params&page_no=".($page_no-1)."&page_size=".$page_size." \">上一页</a></li>\n";
 		}
 		/**** 显示页数 分页栏显示11页，前5条...当前页...后5条 *****/
 		$start_page = $page_no -$offset;
@@ -45,12 +45,12 @@ class Pagination{
 			if($i==$page_no){
 				$navibar.= "<li><span>$i</span></li>";
 			}else{
-				$navibar.= "<li><a href=\" $url?$params&page_no=$i \">$i</a></li>";
+				$navibar.= "<li><a href=\" $url?$params&page_no=$i&page_size=$page_size\">$i</a></li>";
 			}
 		}
 		
 		if ($page_no < $total_page){
-			$navibar .= "<li><a href=\"$url?$params&page_no=".($page_no+1)."\">下一页</a></li>\n <li><a href=\"$url?$params&page_no=$total_page\">末页</a></li>\n ";
+			$navibar .= "<li><a href=\"$url?$params&page_no=".($page_no+1)."&page_size=".$page_size."\">下一页</a></li>\n <li><a href=\"$url?$params&page_no=$total_page&page_size=$page_size\">末页</a></li>\n ";
 		}
 		if($total_page>0){
 			$navibar.="<li><a>".$page_no ."/". $total_page."</a></li>";

@@ -1,5 +1,17 @@
 <style type="text/css">
 	h5{margin:0;padding-bottom:4px;}
+    #wl-midtrace{
+        width:500px;
+        height:300px;
+    }
+    #wl-midtrace ul li{
+        list-style: none;
+    }
+    #wl-midtrace li span.wl-stream-time{
+        display:inline-block;
+        color: darkgreen;
+        margin-right:15px;
+    }
 </style>
 <div class="container-fluid" id="modal-orders-verify" style="margin:-20px -20px -10px -30px;min-height:360px">
 	<div class="row-fluid">
@@ -69,10 +81,9 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">订单跟踪</label>
                     <div class="controls">
-                        <span class="input-medium uneditable-input input-underline">
-                            <{if $orders.express_no!=''}><a href="#" id="example" class="btn btn-success" rel="popover">hover for popover</a><{/if}>
+                        <span class="">
+                            <{if $orders.express_no!=''}><a href="#" id="example" data-v="<{$orders.express_no}>" rel="popover" data-title="运单号:<{$orders.express_no}>">查看物流</a><{/if}>
 
                         </span>
                     </div>
@@ -121,16 +132,3 @@
 	</div>
 </form>
 </div>
-<div id="wl-midtrace">
-    <ul>
-        <li>
-            <span class="wl-stream-time">2014-10-12 13:04:37</span>
-            <span class="wl-stream-text">卖家已发货</span>
-        </li>
-    </ul>
-</div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#example").popover({title: 'Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
-    });
-</script>

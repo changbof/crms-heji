@@ -1,6 +1,7 @@
 <?php
 require ('../include/init.inc.php');
 $disease_id = $disease_name = $disease_pathology = $disease_symptom = $disease_drug = $disease_check = $rec_hospital = $nutrients_effect = $precautions = $a = $p = '';
+$disease_alias=$disease_introduction=$therapy_department='';
 extract ( $_REQUEST, EXTR_IF_EXISTS );
 Common::checkParam($disease_id);
 
@@ -19,24 +20,31 @@ if (Common::isPost ()) {
 		$current_user_id = $current_user_info['user_id'];
 
 		if($user_group ==1 || $disease['owner_id'] == $current_user_id){
+            $disease_introduction = htmlspecialchars($disease_introduction);
 			$disease_pathology = htmlspecialchars($disease_pathology);
 			$disease_prognostic = htmlspecialchars($disease_prognostic);
 			$disease_symptom = htmlspecialchars($disease_symptom);
 			$disease_complication = htmlspecialchars($disease_complication);
 			$disease_drug = htmlspecialchars($disease_drug);
 			$disease_therapy = htmlspecialchars($disease_therapy);
+            $disease_dietcare = htmlspecialchars($disease_dietcare);
 			$disease_check = htmlspecialchars($disease_check);
 			$rec_hospital = htmlspecialchars($rec_hospital);
 			$nutrients_effect = htmlspecialchars($nutrients_effect);
 			$precautions = htmlspecialchars($precautions);
 			$update_data = array (
 				'disease_name' 			=> $disease_name ,
+                'disease_alias'         => $disease_alias,
+                'disease_introduction'  => $disease_introduction,
+                'disease_type'          => $disease_type,
+                'therapy_department'    => $therapy_department,
 				'disease_pathology' 	=> $disease_pathology ,
 				'disease_prognostic' 	=> $disease_prognostic ,
 				'disease_symptom' 		=> $disease_symptom ,
 				'disease_complication'	=> $disease_complication,
 				'disease_drug' 			=> $disease_drug ,
 				'disease_therapy' 		=> $disease_therapy ,
+                'disease_dietcare'     => $disease_dietcare,
 				'disease_check' 		=> $disease_check ,
 				'rec_hospital' 			=> $rec_hospital ,
 				'nutrients_effect' 		=> $nutrients_effect ,

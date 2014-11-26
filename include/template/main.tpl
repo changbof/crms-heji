@@ -145,7 +145,6 @@
 	}
 	//autoChat();
 	$(document).ready(function() {
-
 		//$('#imjs-bar').hide();
 		
 		$(document).on('load',function(){dyniframesize()});

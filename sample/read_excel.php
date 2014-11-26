@@ -20,7 +20,7 @@ if (Common::isPost ()) {
 		OSAdmin::alert("error","empty file");
 	}else{
 		if($_FILES['excel']['error'] != 0) {
-			$message = 'ÉÏ´«ÎÄ¼şÊ§°Ü,error number('.$_FILES['excel']['error'].')';
+			$message = 'ä¸Šä¼ æ–‡ä»¶å¤±è´¥,error number('.$_FILES['excel']['error'].')';
 			OSAdmin::alert("error",$message);
 		}
 		$file = $_FILES['excel']['tmp_name'];
@@ -52,11 +52,11 @@ if (Common::isPost ()) {
 			$customer[18] = implode(',', $snacks);
 
 			$customer[22] = array_search($customer[22],$labor_intensity_options);
-			$customer[32] = ($customer[32]=='ÓĞ'?'1':'2');
+			$customer[32] = ($customer[32]=='æœ‰'?'1':'2');
 
 		    $value .= "('".join("','",$customer)."'),";
 		}
-		$value = substr($value,0,-1); //È¥µô×îºóÒ»¸ö¶ººÅ 
+		$value = substr($value,0,-1); //å»æ‰æœ€åä¸€ä¸ªé€—å· 
 		$output=$value;
 	}
 }

@@ -10,7 +10,8 @@ $health_blood_pressure = $health_blood_pressure_height = $health_gi_preprandial 
 $health_diagnosis = $health_diagnosis_time = $health_diagnosis_other = $health_symptom = '';
 $health_has_biochemical_indicators = $health_anomaly_indicators = $health_had_medication = '';
 $vested = '';
-
+$sdate = $edate = '';
+$cno = $ext = '';
 
 extract ( $_REQUEST, EXTR_IF_EXISTS );
 
@@ -194,16 +195,27 @@ if ($method=="ajax_updateCustomer" ) {
 	}
 	echo json_encode($result);
 }
+//获取客户与销售代表的沟通情况
+if($method=="ajax_getSaleLog" && $customerId!='' && $vested!=''){
 
-if($method=="ajax_sumDuration"){
-	$ext = $current_user_info['ext'];
-	$sdate = date('Y-m-d');
-	$edate = date('Y-m-d',strtotime("+1 day"));
-	
-	$duration = Cti::sumDuration( $sdate, $edate, $ext );
-	echo json_encode(array("result"=>1,"msg"=> "获取通话时长成功","duration"=>$duration));
-
+    $saleContents = Sale::getSaleLogs($vested,$customerId,$sdate,$edate,0,10);
+    if(!empty($saleContents)) {
+        echo json_encode(array("result" => 1, "msg" => "获取销售代表客户统计信息成功", "data" => $saleContents));
+    }else{
+        echo json_encode(array("result"=>0,"msg"=> "此客户还没有沟通过！"));
+    }
 }
+//获取通话时长
+if($method=="ajax_sumDuration"){
+	$ext = $ext==''?$current_user_info['ext']:$ext;
+	$sdate = $sdate==''?date('Y-m-d'):$sdate;
+	$edate = $edate==''?date('Y-m-d',strtotime("+1 day")):$edate;
+	
+	$duration = Cti::sumDuration( $sdate, $edate, $ext, $cno );
+	echo json_encode(array("result"=>1,"msg"=> "获取通话时长成功","duration"=>$duration));
+}
+
+//获取销售代表客户统计信息
 if($method=="ajax_statCustomer"){
     if($user_group!=1){
         $vested = $current_user_info['user_id'];

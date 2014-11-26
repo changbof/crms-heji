@@ -514,7 +514,7 @@
 						<label>备注</label>	
 						<textarea class="input input-xlarge" name="remark" id="remark" rows="1"></textarea>
 						<label>沟通情况</label>
-						<{html_options name="customer_type" id="customer_type" title="请描述本次沟通情况" options=$customertype_options selected=$customer.type }>
+						<{html_options name="customer_type" id="customer_type" title="请描述本次沟通情况"  readonly=$readonly options=$customertype_options strict='1' odisabled=$op_disabled selected=$customer.type }>
 						<input type="hidden" name="method" id="method" value="ajax_addSaleLog" />
 						<input type="hidden" name="sale_id" id="saleId" value="" />
 						<div class="btn-toolbar">

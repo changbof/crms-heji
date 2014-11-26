@@ -17,7 +17,15 @@
 			<div class="btn-group"></div>
 		</div>
 	</form>
-	<hr />
+    <{if $output|strlen > 10 }>
+    <div>
+        <h6>导入客户信息结果</h6>
+        <pre style="color:red;">
+		    <{$output}>
+		</pre>
+    </div>
+    <{/if}>
+    <hr />
 	<ul>
 		<li><small>导入模板下载,请点击"<a href="../tmp/template_customer.xls" target="_blank">客户信息导入模板</a>";</small></li>
 		<li><small>注: 请严格按照"导入模板"要求格式进行导入,否则将不能成功导入;</small></li>

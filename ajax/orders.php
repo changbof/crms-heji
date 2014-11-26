@@ -17,40 +17,45 @@ $sale_id = $sale_date = $sale_product = $sale_content = $sale_analysis = $sale_e
 
 extract ( $_REQUEST, EXTR_IF_EXISTS );
 
+$current_user_id = UserSession::getUserId();
+
 //添加/修改沟通记录
 if ($method=="ajax_addSaleLog") {
 	$sale_content = Common::filterText($sale_content);
 	$sale_analysis = Common::filterText($sale_analysis);
 	$remark = Common::filterText($remark);
-	if($customerId=="" || $sale_content=="" || $customer_type==""){		
-		$result = array("result"=>0,"msg"=> ErrorMessage::NEED_PARAM."请检查: 沟通简要、客户分析、沟通情况等信息是否正确填写!" );
+	if($customerId=="" || $sale_content=="" ){
+		$result = array("result"=>0,"msg"=> ErrorMessage::NEED_PARAM."请检查: 沟通简要等信息是否正确填写!" );
 	}else{
 		$ctype = Dict::getDictForOptionsByKeyName('customertype');
 
 		$sale_content = htmlspecialchars($sale_content);
 		$sale_analysis = htmlspecialchars($sale_analysis);
 		$remark = htmlspecialchars($remark);
-		$sale_effect = $ctype[$customer_type] ;
 		$saleDate = date('Y-m-d H:i:s');
 		$input_data = array (
 			'sale_content'	=> $sale_content , 
 			'sale_analysis'	=> $sale_analysis ,
-			'sale_effect'	=> $sale_effect ,
 			'remark'		=> $remark , 
 		);
 
-		//根据客户分类计算过期日期
-		$sp_expiration = SystemParam::getValue($customer_type);
-		$d = $saleDate." +".$sp_expiration['param_value']." day";
-		$expiration_date = date('Y-m-d H:i:s',strtotime($d));
-		$customer_data = array (
-			'type'				=> $customer_type , 
-			'expiration_date'	=> $expiration_date , 
-			'last_vested'		=> $current_user_id ,
-			'last_sale_date'	=> $saleDate ,
-		);
-		Customer::updateCustomer($customerId,$customer_data);
-		
+        if($customer_type!="") {
+            $sale_effect = $ctype[$customer_type];
+            $input_data['sale_effect'] =  $sale_effect;
+
+            //根据客户分类计算过期日期
+            $sp_expiration = SystemParam::getValue($customer_type);
+            $d = $saleDate . " +" . $sp_expiration['param_value'] . " day";
+            $expiration_date = date('Y-m-d H:i:s', strtotime($d));
+            $customer_data = array(
+                'type' => $customer_type,
+                'expiration_date' => $expiration_date,
+                'last_vested' => $current_user_id,
+                'last_sale_date' => $saleDate,
+            );
+            Customer::updateCustomer($customerId, $customer_data);
+		}
+
 		//修改沟通日志
 		if(!$sale_id==''){
 			$salelog = Sale::getSaleLogById($sale_id);
@@ -65,7 +70,7 @@ if ($method=="ajax_addSaleLog") {
 		}else{  //新增沟通日志
 			$input_data['customer_id'] 	= $customerId;
 			$input_data['sale_date'] 	= $saleDate;
-			$input_data['vested']		= UserSession::getUserId();
+			$input_data['vested']		= $current_user_id;
 			$rst = Sale::addSaleLog( $input_data );
 
 			if ($rst>0) {
@@ -105,7 +110,7 @@ if ( $method=="ajax_addOrders" ) {
 			'orders_address'=> $orders_address,
 			'orders_tel'	=> $orders_tel,
 			'status'		=> 'new',
-			'vested'		=> UserSession::getUserId(),
+			'vested'		=> $current_user_id,
 			'orders_date'	=> $nowTime,
 			'update_time'	=> $nowTime,
 		);
@@ -176,7 +181,7 @@ if ( $method=="ajax_modifyOrders" ) {
 //处理订单流程状态
 if ( $method=="ajax_processOrders" ) {
 
-	if( $ordersId == "" || $status =="" ) {		
+	if( $ordersId == "" || $status =="" || $customerId =="") {
 		$result = array("result"=>0,"msg"=> ErrorMessage::NEED_PARAM );
 	}else{
 		$nowTime = date('Y-m-d H:i:s');
@@ -196,15 +201,19 @@ if ( $method=="ajax_processOrders" ) {
 			case 'verifying': //第三步:客户确认完成[销售代表]
 				$orders_data['determine_date'] = $nowTime;
 				break;
-			case 'audited':
-			case 'unaudited': //第四步:审核完成[物流部]
+			case 'audited': //第四步:审核完成[物流部] 审核通过
+                $orders_data['verify_date'] = $nowTime;
+                $orders_data['verify_note'] = $note;
+                $orders_data['shipped_express'] = $shipped_express;
+                $orders_data['nutrientscase'] = $nutrientscase;
+
+                $customer_type = 5; //出单客户
+                break;
+			case 'unaudited': //第四步:审核完成[物流部] 审核不通过
 				$orders_data['verify_date'] = $nowTime;
 				$orders_data['verify_note'] = $note;
                 $orders_data['shipped_express'] = $shipped_express;
                 $orders_data['nutrientscase'] = $nutrientscase;
-
-                $customer_type=5; //成交客户
-                $success = true ;
 				break;
 			case 'shipped': //第五步:已发货[仓储部]
 				$orders_data['shipped_date'] 	= $nowTime;
@@ -219,7 +228,7 @@ if ( $method=="ajax_processOrders" ) {
 				$orders_data['finish_date'] = $nowTime;
 				$orders_data['finished'] = 'end';
 
-                $customer_type=7; //成交客户
+                $customer_type = 7; //成交客户
 				$success = true ;
 				break;
 			case 'refused': //第七步:退签[物流部]
@@ -228,8 +237,7 @@ if ( $method=="ajax_processOrders" ) {
 				$orders_data['finish_date'] = $nowTime;
                 $orders_data['finished'] = 'interrupt';
 
-                $customer_type=6; //退单客户
-                $success = true ;
+                $customer_type = 6; //退单客户
 				break;
 			case 'canceling': //第1-4步:取消申请中[销售代表] 发货后不可取消
 				$orders_data['cancel_date'] = $nowTime;
@@ -254,23 +262,30 @@ if ( $method=="ajax_processOrders" ) {
             //根据订单状态对应到客户分类来计算过期日期
             if($customer_type!=''){
                 $sp_expiration = SystemParam::getValue($customer_type);
-                $d = $saleDate." +".$sp_expiration['param_value']." day";
+                $d = $nowTime." +".$sp_expiration['param_value']." day";
                 $expiration_date = date('Y-m-d H:i:s',strtotime($d));
-                if($success){
+                if($success){ //成交
                     $customer_data = array (
                         'type'				=> $customer_type ,
                         'expiration_date'	=> $expiration_date ,
-                        'last_vested'		=> $current_user_id ,
+                        'updater'		    => $current_user_id ,
+                        "update_date"       => $nowTime,
+                        "last_sale_date"    => $nowTime,
                         "transactions[+]"   => 1 ,
                     );
                 }else{
                     $customer_data = array (
                         'type'				=> $customer_type ,
                         'expiration_date'	=> $expiration_date ,
-                        'last_vested'		=> $current_user_id
+                        'updater'		    => $current_user_id,
+                        "update_date"       => $nowTime,
+                        "last_sale_date"    => $nowTime,
                     );
                 }
-                Customer::updateCustomer($customerId,$customer_data);
+                $n2 = Customer::updateCustomer($customerId,$customer_data);
+                if($n2>0) {
+                    SysLog::addLog(UserSession::getUserName(), 'UPDATE', 'Customer', $customerId, json_encode($customer_data));
+                }
             }
 
 			SysLog::addLog ( UserSession::getUserName(), 'UPDATE', 'Orders' ,$ordersId, '更新订单状态[status]为'.$msg.':'.$status );
@@ -396,21 +411,22 @@ if($method=="ajax_expresstrack" && $express_no!=''){
         'id'    => EXP_ID ,
         'secret'=> EXP_SECRET ,
         'com'   => 'auto', //$myOrders['shipped_express'] ,
-        'nu'    => $myOrders['express_no'] ,
+        'nu'    => $express_no ,
         'type'  => EXP_TYPE ,
         'encode'=> EXP_ENCODE ,
         'ord'   => EXP_ORD ,
     );
+
     // post and get fileContent by curl
     $ch = curl_init();
-    $timeout = 5;
+    $timeout = 50;
     curl_setopt($ch, CURLOPT_URL, EXP_URL);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-    $file_contents = curl_exec($ch);
+    $shipping_detail = curl_exec($ch);
 
     if (curl_errno($ch))
     {
@@ -425,7 +441,6 @@ if($method=="ajax_expresstrack" && $express_no!=''){
     curl_close($ch);
 
     echo $shipping_detail;
-
 }
 
 ?>

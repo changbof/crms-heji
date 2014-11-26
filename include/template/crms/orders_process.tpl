@@ -5,7 +5,8 @@
 	</div>
 
 	<form action="<{$smarty.const.ADMIN_URL}>/ajax/orders.php" class="form-horizontal" name="orders_process_form" id="orders_process_form" method="post">
-		<input type="hidden" name="ordersId" value="<{$orders.id}>">
+        <input type="hidden" name="customerId" value="<{$orders.customer_id}>">
+        <input type="hidden" name="ordersId" value="<{$orders.id}>">
 		<input type="hidden" name="method" value="ajax_processOrders">
 		<div class="control-group">
 			<label class="control-label">订购产品:</label>

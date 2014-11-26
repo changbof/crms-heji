@@ -5,9 +5,9 @@ class Disease extends Base {
 	private static $table_name = 'disease';
 	private static $table_prefixs = 'crm_';
 	// 查询字段
-	private static $columns = 'id,disease_name,disease_pathology,disease_prognostic,disease_symptom,disease_complication,disease_drug,disease_therapy,disease_check,rec_hospital,nutrients_effect,precautions,owner_id';
+	private static $columns = 'id,disease_name,disease_pathology,disease_prognostic,disease_symptom,disease_complication,disease_drug,disease_therapy,disease_check,rec_hospital,nutrients_effect,precautions,owner_id,disease_alias,disease_introduction,therapy_department,disease_dietcare,disease_type';
 	// 查询字段
-	private static $fields = '`disease_name`,`disease_pathology`,`disease_prognostic`,`disease_symptom`,`disease_complication`,`disease_drug`,`disease_therapy`,`disease_check`,`rec_hospital`,`nutrients_effect`,`precautions`,`owner_id`';
+	private static $fields = '`disease_name`,`disease_alias`,`disease_introduction`,`disease_type`,`therapy_department`,`disease_pathology`,`disease_prognostic`,`disease_symptom`,`disease_complication`,`disease_drug`,`disease_therapy`,`disease_dietcare`,`disease_check`,`rec_hospital`,`nutrients_effect`,`precautions`,`owner_id`';
 	
 	public static function getTableName(){
 		return self::$table_prefixs.self::$table_name;

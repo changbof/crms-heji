@@ -1,4 +1,38 @@
 var weeks=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+
+
+//替换tooltip函数
+//动态更新tooltip显示内容
+$.updateTooltip=function (element, options) {
+    if (element.data('tooltip') != null) {
+        element.tooltip('hide');
+        element.removeData('tooltip');
+    }
+    element.tooltip(options).tooltip('show');
+}
+
+//动态更新popover显示内容
+$.updatePopover=function (element, options) {
+    if (element.data('popover') != null) {
+        element.popover('hide');
+        element.removeData('popover');
+    }
+    element.popover(options).popover('show');
+}
+
+$.updatePopoverAutoHide=function (element, options,timeout) {
+    if(timeout==null || timeout=="" || timeout==0)timeout=3000;
+    $.updatePopover(element, options);
+    setTimeout(function() {element.popover('hide');}, timeout);
+}
+
+$.updateTooltipAutoHide=function (element, options,timeout) {
+    if(timeout==null || timeout=="" || timeout==0)timeout=3000;
+    $.updateTooltip(element, options);
+    setTimeout(function() {element.tooltip('hide');}, timeout);
+}
+
+
 function listenShortCut(clazz){
 	$('.'+clazz).click(function(){
 		elem=$(this);

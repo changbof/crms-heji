@@ -236,14 +236,14 @@ class Customer extends Base{
 			$where =" where UNIX_TIMESTAMP(expiration_date) < ".$date;
 			$sql = "update ".self::getTableName()."
 							set status ='".self::REOPEN."',
-							        last_vested = vested ,
-									return_date = '".$datetime."',
-									update_date = '".$datetime."',
-									updater = ".$updater.",
-									createby = 'inner',
-									vested = null,
-									expiration_date = null ,
-									assign_date = null " .$where ;
+                                last_vested = vested ,
+                                return_date = '".$datetime."',
+                                update_date = '".$datetime."',
+                                updater = ".$updater.",
+                                createby = 'inner',
+                                vested = null,
+                                expiration_date = null ,
+                                assign_date = null " .$where ;
 
       $db=self::__instance();
 			$id = $db->query ( $sql )->fetch();
@@ -355,11 +355,7 @@ class Customer extends Base{
 		$where = " where ".$datetype." between '".$sdate." 00:00:00' and '".$edate." 23:59:59'";
 
 		if($type!=""){
-			if($type=="-1"){
-					$where .= " and (type is null or type='') ";
-			}else{
-				$where .= " and type='".$type."'";
-			}
+			$where .= " and type='".$type."'";
 		}
 		if($status!=""){
 			$where .= " and status='".$status."'";
@@ -374,9 +370,11 @@ class Customer extends Base{
 		if($page_size){
 			$LIMIT = " LIMIT ".$start.",".$page_size;
 		}
+        $sql = " select ".self::$columns.",(select user_name from osa_user where user_id=vested) as ext from ".self::getTableName().$where." order by type,".$datetype." DESC ".$LIMIT ;
+
 		$db=self::__instance();
-		$list = $db -> query ( " select ".self::$columns." from ".self::getTableName().$where." order by type,".$datetype." DESC ".$LIMIT )->fetchAll();
-		if(!empty($list)){
+		$list = $db -> query ( $sql )->fetchAll();
+        if(!empty($list)){
 			foreach($list as &$item){
 				$item['age']=Common::getAge($item['birthday']);
 			}

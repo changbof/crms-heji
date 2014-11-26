@@ -17,7 +17,7 @@ $link_relation_options = Dict::getDictForOptionsByKeyName('relation');
 $labor_intensity_options = Dict::getDictForOptionsByKeyName('laborintensity');
 $ordersstatus_options = Dict::getDictForOptionsByKeyName('ordersstatus');
 
-if (Common::isPost ()) {
+if (Common::isPost()) {
 	if(empty($_FILES['excel'])) {
 		OSAdmin::alert("error","empty file");
 	}else{
@@ -28,7 +28,7 @@ if (Common::isPost ()) {
 		$file = $_FILES['excel']['tmp_name'];
 		$excel_array = ExcelReader::readXLS($file,3);
 		$current_user_id = UserSession::getUserId();
-			
+		$n = 0;
 		foreach ($excel_array as $key=>&$customer) {
             //检查系统中是否已有此客户
             $crm_customer = Customer::getCustomerByPhone ( $customer[4] );
@@ -60,17 +60,34 @@ if (Common::isPost ()) {
                 $customer[32] = ($customer[32]=='有'?'1':'2');
 
                 $values .= "('".join("','",$customer)."','import','assign','$current_time','$current_time',$current_user_id,'open','-1'),";
+            }else{
+                $n ++;
+                if($n<10) {
+                    $exist .= $customer[4] . " ";
+                }else{
+                    $exist .= "......";
+                }
+           }
+		}
+
+        if(strlen($values)>50) {
+            $values = substr($values, 0, -1); //去掉最后一个逗号
+            $result = Customer::batchAddCustomers($values);
+            $msg_ext = '';
+            if($n>0){
+                $msg_ext = $n."个重复客户手机号码：".$exist;
             }
-		}
-		$values = substr($values,0,-1); //去掉最后一个逗号 
-		$result = Customer::batchAddCustomers($values);
-		if($result>0){
-			SysLog::addLog ( UserSession::getUserName(), 'IMPORT', 'Customer','导入时间:'.$current_time, json_encode(array('create_date'=>$current_time,'source'=>'initialImport','rows'=>$result)) );
-			Common::exitWithSuccess ('成功导入'.$result.'条客户信息！批次号：'.date_format(date_create($current_time),"YmdHis") ,'crms/customers.php');
-		}else{
-			OSAdmin::alert("error");
-		}
+            if($result>0){
+                SysLog::addLog ( UserSession::getUserName(), 'IMPORT', 'Customer','导入时间:'.$current_time, json_encode(array('create_date'=>$current_time,'source'=>'initialImport','rows'=>$result)) );
+                Common::exitWithSuccess ('成功导入'.$result.'条客户信息！批次号：'.date_format(date_create($current_time),"YmdHis").'。<br />'.$msg_ext ,'crms/customers.php');
+            }else{
+                OSAdmin::alert("error");
+            }
+        }else{
+            $output = "没有数据可以导入! 请检查是否数据重复!";
+        }
 	}
 }
-
+Template::assign("_POST" ,$_POST);
+Template::assign("output" ,$output);
 Template::display('crms/customers_import.tpl' );

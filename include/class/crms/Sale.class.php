@@ -14,19 +14,25 @@ class Sale extends Base{
 		return self::$table_prefixs.self::$table_name;
 	}
 	
-	public static function getSaleLogs($vested, $customer_id, $start ='' ,$page_size='' ){
-		$where = '';
-		$LIMIT = '';
+	public static function getSaleLogs($vested, $customer_id,$sdate='', $edate='', $start ='', $page_size=''){
+		$where = " where 1=1 ";
+		$LIMIT = "";
 		if(! $customer_id==''){
 			$where .= " and customer_id=".$customer_id ;
 		}
 		if (! $vested=='') {
 			$where .= " and vested=".$vested ;
 		}
+        if($sdate !=''){
+            $where .= " and sale_date >='".$sdate." 00:00:00'";
+        }
+        if($edate !=''){
+            $where .= " and sale_date <='".$edate." 23:59:59'";
+        }
 		if($page_size){
 			$LIMIT = " LIMIT ".$start.",".$page_size;
 		}
-		$sql = " select ".self::$columns." from ".self::getTableName()." where 1=1 ".$where." ORDER BY sale_date DESC ".$LIMIT ;
+		$sql = " select ".self::$columns." from ".self::getTableName().$where." ORDER BY sale_date DESC ".$LIMIT ;
 		$db=self::__instance();
 		$list = $db->query ( $sql )->fetchAll(PDO::FETCH_ASSOC);
 		if ($list) {

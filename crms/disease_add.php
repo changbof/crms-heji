@@ -2,6 +2,7 @@
 require ('../include/init.inc.php');
 $disease_name = $disease_pathology = $disease_prognostic = $disease_symptom = $disease_complication = '';
 $disease_drug = $disease_therapy = $disease_check = $rec_hospital = $nutrients_effect = $precautions = '';
+$disease_alias=$disease_introduction=$disease_type=$therapy_department=$disease_dietcare='';
 extract ( $_POST, EXTR_IF_EXISTS );
 $nutrients_effect = Common::filterText($nutrients_effect);
 if (Common::isPost ()) {
@@ -9,24 +10,31 @@ if (Common::isPost ()) {
 	if($disease_name ==""){
 		OSAdmin::alert("error",ErrorMessage::NEED_PARAM);
 	}else{
+        $disease_introduction = htmlspecialchars($disease_introduction);
 		$disease_pathology = htmlspecialchars($disease_pathology);
 		$disease_prognostic = htmlspecialchars($disease_prognostic);
 		$disease_symptom = htmlspecialchars($disease_symptom);
 		$disease_complication = htmlspecialchars($disease_complication);
 		$disease_drug = htmlspecialchars($disease_drug);
 		$disease_therapy = htmlspecialchars($disease_therapy);
+        $disease_dietcare = htmlspecialchars($disease_dietcare);
 		$disease_check = htmlspecialchars($disease_check);
 		$rec_hospital = htmlspecialchars($rec_hospital);
 		$nutrients_effect = htmlspecialchars($nutrients_effect);
 		$precautions = htmlspecialchars($precautions);
 		$input_data = array (
 			'disease_name' 			=> $disease_name ,
+            'disease_alias'         => $disease_alias,
+            'disease_introduction'  => $disease_introduction,
+            'disease_type'          => $disease_type,
+            'therapy_department'    => $therapy_department,
 			'disease_pathology' 	=> $disease_pathology ,
 			'disease_prognostic' 	=> $disease_prognostic ,
 			'disease_symptom' 		=> $disease_symptom ,
 			'disease_complication'	=> $disease_complication,
 			'disease_drug' 			=> $disease_drug ,
 			'disease_therapy' 		=> $disease_therapy ,
+            'disease_dietcare'     => $disease_dietcare,
 			'disease_check' 		=> $disease_check ,
 			'rec_hospital' 			=> $rec_hospital ,
 			'nutrients_effect' 		=> $nutrients_effect ,

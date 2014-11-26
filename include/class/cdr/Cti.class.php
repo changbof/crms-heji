@@ -14,12 +14,12 @@ class Cti extends CtiBase {
 		$db=self::__instance(CTI_DB_ID);
 		$sql="select disposition as disposition,count(*) num 
 			  from asteriskcdrdb.cdr 
-			  where calldate between '".$sdate." 01:00:00' and '".$edate." 01:00:00' 
+			  where calldate between '".$sdate." 00:00:00' and '".$edate." 23:59:59'
 			  group by disposition 
 			  union all
 			  select 'TOTAL' as disposition,count(*) num 
 			  from asteriskcdrdb.cdr
-			  where calldate between '".$sdate." 01:00:00' and '".$edate." 01:00:00' ";
+			  where calldate between '".$sdate." 00:00:00' and '".$edate." 23:59:59' ";
 		$list = $db -> query($sql)-> fetchAll(PDO::FETCH_ASSOC);
 		if($list){
 			return $list;
@@ -180,10 +180,13 @@ class Cti extends CtiBase {
 
 	//销售代表当天电话时长统计
 	//ext: 座席分机号
-	public static function sumDuration($sdate='',$edate='',$ext='',$duration=''){
-		$where = "";
+    //cno: 客户号码
+	public static function sumDuration($sdate='',$edate='',$ext='',$cno='',$duration=''){
+		$where = " where userfield<>'' ";
         if($duration!=''){
             $where .= " and duration>".$duration ;
+        }else{
+            $where .= " and duration>90 " ;
         }
         if(!$sdate==''){
 			$where .= " and calldate >= '".$sdate."' ";
@@ -191,8 +194,13 @@ class Cti extends CtiBase {
 		if(!$edate==''){
 			$where .= " and calldate < '".$edate."' ";
 		}
-		$sql = "select SEC_TO_TIME(ifnull(sum(duration),0)) as duration from asteriskcdrdb.cdr 
-					    where userfield<>'' and duration>90 and (src='$ext' or dst='$ext' or SUBSTRING(channel,5,4)='$ex') ".$where ;
+        if($ext!=''){
+            $where .= " and (src='".$ext."' or dst='".$ext."' or SUBSTRING(channel,5,4)='".$ext."')";
+        }
+        if($cno!=''){
+            $where .= " and (src='".$cno."' or dst='".$cno."')";
+        }
+		$sql = "select SEC_TO_TIME(ifnull(sum(duration),0)) as duration from asteriskcdrdb.cdr ".$where ;
 
 		$db=self::__instance(CTI_DB_ID);
 		$num = $db -> query($sql)-> fetchColumn();

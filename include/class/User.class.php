@@ -30,8 +30,7 @@ class User extends Base{
 		}
 		$db=self::__instance();
 		$condition = array("AND" => 
-						array("user_id[=]" => $user_id,
-						)
+						array("user_id[=]" => $user_id,)
 					);
 		$list = $db->select ( self::getTableName(), self::$columns, $condition );
 		

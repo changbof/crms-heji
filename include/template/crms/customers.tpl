@@ -8,7 +8,25 @@
 <{$osadmin_quick_note}>
 <style type="text/css">
 	small.btn{vertical-align:baseline;}
-
+    .popover{
+        width:500px;
+        min-height:100px;
+    }
+    #sale-logs ul li{
+        list-style: none;
+        margin-left:0;
+        padding-left:0;
+    }
+    #sale-logs li span.stream-time{
+        display:inline-block;
+        color: darkgreen;
+        margin-right:15px;
+        width:180px;
+    }
+    #sale-logs li span.stream-text{
+        display:inline-block;
+        width:250px;
+    }
 </style>
 <div id='loading'>正在处理中...</div>
 <div class="">
@@ -24,7 +42,7 @@
 	<div style="float:left;margin-right:5px">
 		<label>从</label>
 		<div class="input-append datetimepicker" >
-		    <input data-format="yyyy-MM-dd" type="text" name="sdate" value="<{$_GET.sdate}>" class="input-small"></input>
+		    <input data-format="yyyy-MM-dd" type="text" name="sdate" id="sdate" value="<{$_GET.sdate}>" class="input-small"></input>
 		    <span class="add-on">
 		    	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 		    </span>
@@ -33,7 +51,7 @@
 	<div style="float:left;margin-right:5px">
 		<label>到</label>
 		<div class="input-append datetimepicker" >
-		    <input data-format="yyyy-MM-dd" type="text" name="edate" value="<{$_GET.edate}>" class="input-small"></input>
+		    <input data-format="yyyy-MM-dd" type="text" name="edate" id="edate" value="<{$_GET.edate}>" class="input-small"></input>
 		    <span class="add-on">
 		    	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 		    </span>
@@ -90,7 +108,6 @@
 			<span class="btn-group">
 				<small class="btn" id="customers_add"><i class="icon-plus-sign"></i> 新增</small>
 				<small class="btn btn-tool" data-action="remove" id="customers_remove" data-target="#myModal" data-toggle="modal"><i class="icon-trash"></i> 删除</small>
-
 			</span>
 		<{else if $current_user_info.user_group == 4}>
 			<small class="btn" id="customers_add"><i class="icon-plus-sign"></i> 新增</small>
@@ -107,11 +124,12 @@
 				<th>年龄</th>
 				<th>手机号码</th>
 				<th>电话</th -->
+                <th>地址</th>
 				<th>病症</th>
-				<th>地址</th>
 				<th>客户阶段</th>
+                <th>客户状态</th>
 				<th>责任人</th>
-				<th>客户状态</th>
+                <th>查看</th>
 				<th>操作</th>
             </tr>
           </thead>
@@ -124,11 +142,16 @@
 					<td><{$customer.age}></td>
 					<td><{$customer.mobile|substr_replace:'****':'-5':'4'}></td>
 					<td><{$customer.telphone|substr_replace:'****':'-5':'4'}></td-->
+                    <td><{$customer.address}></td>
 					<td><{$customer.health_diagnosis}></td>
-					<td><{$customer.address}></td>
 					<td><{if $customer.type!=''}><{$type_options_list[$customer.type]}><{/if}></td>
+                    <td><{$status_options_list[$customer.status]}></td>
 					<td><{if $customer.vested!=''}><{$saler_options_list[$customer.vested]}><{/if}></td>
-					<td><{$status_options_list[$customer.status]}></td>
+                    <td><{if $customer.vested!=''}>
+                        <small class="view-sale" rel="popover" data-uid="<{$customer.vested}>" data-cid="<{$customer.id}>" data-title="沟通信息" data-placement="left">沟通信息</small>
+                        <small class="view-duration" rel="popover" data-ext="<{$customer.ext}>" data-cno="<{$customer.mobile}>" data-title="通话时长" data-placement="left">| 通话时长</small>
+                        <{/if }>
+                    </td>
 					<td>
 						<a href="customer_modify.php?p=_blk&customerId=<{$customer.id}>" target="_blank" title= "查看客户信息" ><i class="icon-eye-open"></i></a>
 					</td>
@@ -144,12 +167,97 @@
 </div>
 <script type="text/javascript">
     var url = '/ajax/exportCsv.php?t=customer&n='+Math.random();
+    var getSaleLogs = function(data) {
+        //alert(data);
+        var str_html = '<div id="sale-logs"><ul>';
+        jQuery.each( data, function( i, json ) {
+            str_html += '<li><span class="stream-time">'+json['sale_date']+'</span>';
+            str_html += '<span class="stream-text">'+json['sale_content']+'</span></li>';
+        });
+        str_html += '</ul></div>';
+        return str_html;
+    };
+
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
 		$('.datetimepicker').datetimepicker({
 	        language: 'zh-CN',
 	        pickTime: false
 	    });
+
+        //获取通话时长
+        $(".view-duration").on('click',function() {
+            var $this = $(this);
+            $this.popover({content:'正在努力加载中...'}).popover('show');
+            if($(this).attr('data-show')!=1) {
+                var _ext = $(this).attr('data-ext');
+                var _cno = $(this).attr('data-cno');
+                var _sdate = $('#sdate').val();
+                var _edate = $('#edate').val();
+                jQuery.ajax({
+                    type: 'get',
+                    url: '<{$smarty.const.ADMIN_URL}>/ajax/crms.php',
+                    data: 'method=ajax_sumDuration&ext=' + _ext + '&cno=' + _cno + '&sdate=' + _sdate + '&edate=' + _edate,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == 1) {
+                            $this.attr('data-show', '1');
+                            if($this.data('popover')!=null){
+                                $this.popover('hide');
+                                $this.removeData('popover');
+                            }
+                            $this.attr('data-content', data['duration']);
+                            $this.popover('show');
+                        } else {
+                            $this.attr('data-show', '0');
+                            $this.attr('data-content', '还没有通话记录哦!');
+                            $this.popover('show');
+                        }
+
+                        setTimeout(function() {$this.popover('hide');}, 3000);
+                    }
+                });
+            }else{
+                $this.popover('show');
+            }
+        });
+
+        //获取沟通信息
+        $(".view-sale").on('click',function() {
+            var $this = $(this);
+            if($(this).attr('data-show')!=1) {
+                $this.popover({content:'正在努力加载中...'}).popover('show');
+                var _vested = $(this).attr('data-uid');
+                var _customerid = $(this).attr('data-cid');
+                var _sdate = $('#sdate').val();
+                var _edate = $('#edate').val();
+                jQuery.ajax({
+                    type: 'get',
+                    url: '<{$smarty.const.ADMIN_URL}>/ajax/crms.php',
+                    data: 'method=ajax_getSaleLog&vested=' + _vested + '&customerId=' + _customerid + '&sdate=' + _sdate + '&edate=' + _edate,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == 1) {
+                            $this.attr('data-show', '1');
+                            if($this.data('popover')!=null){
+                                $this.popover('hide');
+                                $this.removeData('popover');
+                            }
+                            $this.attr('data-content', getSaleLogs(data['data']));
+                            $this.popover('show');
+                        } else {
+                            $this.attr('data-show', '0');
+                            $this.attr('data-content', '还没有沟通记录哦!');
+                            $this.popover('show');
+                        }
+                    }
+                });
+            }else{
+                $this.popover('show');
+            }
+            setTimeout(function() {$this.popover('hide');}, 3000);
+        });
+
 		//"全选"
 		$("#checkAll").click(function(){
 		     if($(this).attr("checked")){

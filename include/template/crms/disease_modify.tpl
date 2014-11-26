@@ -8,6 +8,40 @@
 <style type="text/css">
 	#ht{line-height:20px;font-size: 3em;font-weight: bolder;margin-top:5px; }
 	.disease-form label{font-weight: bold;margin-top: 10px;}
+
+    ul.fast-bar {
+        display: block;
+        position: fixed;
+        top: 40%;
+        right: 1px;
+        border-style: solid;
+        border-color: #CFCECA;
+        -moz-border-top-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        border-image: none;
+        border-width: 1px 1px 0px 0px;
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+        font: 12px/25px Helvetica Neue,Helvetica,Arial,Calibri,Tahoma,Verdana,sans-serif;
+        color: #222;
+        z-index: 99999999;
+        background: #fff;
+    }
+    ul.fast-bar li{
+        position: relative;
+        width: 80px;
+        border-left: 1px solid #cecece;
+        border-bottom: 1px solid #cecece;
+        padding: 4px 10px;
+        text-shadow: 0 1px 0 #fff;
+    }
+    ul.fast-bar > li:hover {
+        background: #fff;
+    }
+
 	<{if $p}>
       /* 隐藏头,右侧,内容头部 */
 	  body{background: none;}
@@ -16,10 +50,20 @@
 	  .content{margin-left: 0;}
 	<{/if}>
 </style>
+<ul class="fast-bar">
+    <li><a href="#pathology_anchor">1.病因病理</a></li>
+    <li><a href="#casetype_anchor">2.疾病类型</a></li>
+    <li><a href="#symptom_anchor">3.症状体征</a></li>
+    <li><a href="#complication_anchor">4.并发疾病</a></li>
+    <li><a href="#drug_anchor">5.常用药物</a></li>
+    <li><a href="#dietcare_anchor">6.饮食保健</a></li>
+    <li><a href="#precautions_anchor">7.建议事项</a></li>
+    <li><a href="#nutrients_anchor">8.必须营养素</a></li>
+</ul>
 <div class="well">
     <ul class="nav nav-tabs">
-      <small class="pull-right"><h2 id="ht"><{$disease.disease_name}></h2></small>
-      <li class="active"><a href="#home" data-toggle="tab">编辑知识库信息</a></li>
+      <li class="active  pull-right"><a href="#home" data-toggle="tab">编辑知识库信息</a></li>
+      <small class=""><h2 id="ht"><{$disease.disease_name}></h2></small>
     </ul>	
 	
 	<div id="myTabContent" class="tab-content">
@@ -28,8 +72,17 @@
            <form id="tab" method="post" action="" class="disease-form">
            		<input type="hidden" name="disease_id" value="<{$disease.id}>" />
            		<input type="hidden" name="disease_name" value="<{$disease.disease_name}>" />
+               <div class="row-fluid">
+                   <div class="span2">
+                       <img src="<{$smarty.const.ADMIN_URL}>/assets/images/140x140.gif" />
+                   </div>
+                   <div class="span10">
+                       <textarea name="disease_introduction" rows="6" class="span12" required="true"><{$disease.disease_introduction}></textarea>
+                   </div>
+               </div>
 				<div class="row-fluid">
 					<div class="span12">
+                        <a class="anchor-fix" name="pathology_anchor"></a>
 						<label>病因病理 <span class="label label-info"> 不支持HTML代码</span></label>
 						<textarea name="disease_pathology" class="span12" required="true"><{$disease.disease_pathology}></textarea>
 						<label>预后 <span class="label label-info"> 不支持HTML代码</span></label>

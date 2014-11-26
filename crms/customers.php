@@ -12,6 +12,7 @@ extract ( $_REQUEST, EXTR_IF_EXISTS );
 if(empty($_GET)){
 	$_GET['sdate'] = $sdate;
 	$_GET['edate'] 	= $edate;
+    $_GET['page_size'] 	= 50;
 }
 
 $current_user_info=UserSession::getSessionInfo();
