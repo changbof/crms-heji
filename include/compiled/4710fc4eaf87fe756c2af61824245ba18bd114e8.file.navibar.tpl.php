@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-08-22 03:37:31
+<?php /* Smarty version Smarty-3.1.15, created on 2015-05-22 00:14:42
          compiled from "D:\Server\www\crms\include\template\navibar.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:3201753f64a7b45cc77-93618284%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:18042555e0472255838-85647001%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '4710fc4eaf87fe756c2af61824245ba18bd114e8' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\navibar.tpl',
-      1 => 1408412016,
+      1 => 1415642353,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '3201753f64a7b45cc77-93618284',
+  'nocache_hash' => '18042555e0472255838-85647001',
   'function' => 
   array (
   ),
@@ -21,13 +21,30 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f64a7b498885_34193932',
+  'unifunc' => 'content_555e047229bfa5_26811737',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f64a7b498885_34193932')) {function content_53f64a7b498885_34193932($_smarty_tpl) {?>  <body class=""> 
+<?php if ($_valid && !is_callable('content_555e047229bfa5_26811737')) {function content_555e047229bfa5_26811737($_smarty_tpl) {?>  <body class=""> 
     <!--<![endif]-->
     <style type="text/css">
         /*a.brand{background: url("<?php echo @constant('ADMIN_URL');?>
 /assets/images/logo.png") no-repeat 0 0;padding-left:320px;min-width:330px;}*/
+        .navbar-inner .sidebar-toggler {
+            cursor: pointer;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+            margin: 6px 6px 6px -10px;
+            width: 29px;
+            height: 29px;
+            background-repeat: no-repeat;
+            background-color: #242424;
+            background-image: url(<?php echo @constant('ADMIN_URL');?>
+/assets/images/sidebar-toggler.jpg);
+            float:left;
+        }
+        .navbar-inner .sidebar-toggler:hover {
+            filter: alpha(opacity=100);
+            opacity: 1;
+        }
     </style>
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
@@ -59,7 +76,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                         <li><a href="<?php echo @constant('ADMIN_URL');?>
 /admin/set.php?t=schoolpainting">青葱校园</a></li>
                     </ul>
-                </li>				
+                </li>
                 <li id="fat-menu" class="dropdown">
                     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-user"></i> <?php echo $_smarty_tpl->tpl_vars['user_info']->value['real_name'];?>
@@ -74,6 +91,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                     </ul>
                 </li>                 
             </ul>
+            <div class="sidebar-toggler"></div>
             <a class="brand" href="<?php echo @constant('ADMIN_URL');?>
 /index.php"><span class="first"><?php echo @constant('COMPANY_NAME');?>
 </span> <span class="second"><?php echo @constant('ADMIN_TITLE');?>

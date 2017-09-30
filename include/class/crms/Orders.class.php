@@ -36,7 +36,8 @@ class Orders extends Base
 
     public static function getOrders($sdate = '', $edate = '', $status = '', $orders_id = '', $customer_id = '', $vested = '', $start = '', $page_size = '')
     {
-        $where = ' WHERE 1=1 ';
+       // $LAST_MONTH_DAY = date('Y-m-d',strtotime("-1 month"));
+        $where = " WHERE 1=1 ";//and orders_date>= '".$LAST_MONTH_DAY."' ";
         $limit = '';
         if ($sdate != '') {
             $where .= " and orders_date>='" . $sdate . "'";
@@ -72,7 +73,8 @@ class Orders extends Base
 
     public static function getAllOrders($sdate = '', $edate = '', $status = '', $orders_id = '', $customer_id = '', $vested = '', $start = '', $page_size = '')
     {
-        $where = ' WHERE 1=1 ';
+        //$LAST_MONTH_DAY = date('Y-m-d',strtotime("-1 month"));
+        $where = " WHERE 1=1 ";";//and orders_date>= '".$LAST_MONTH_DAY."' ";
         $limit = '';
         if (!$sdate == '') {
             $where .= " and orders_date>='" . $sdate . "'";
@@ -99,6 +101,7 @@ class Orders extends Base
             " ORDER BY orders_date DESC " . $limit;
         $db = self::__instance();
         $list = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        //print_r($db->last_query());
         if ($list) {
             return $list;
         }
@@ -108,7 +111,8 @@ class Orders extends Base
     //搜索订单
     public static function countSearch($sdate = '', $edate = '', $status = '', $orders_id = '', $customer_id = '', $vested = '')
     {
-        $where = ' where 1=1 ';
+        //$LAST_MONTH_DAY = date('Y-m-d',strtotime("-1 month"));
+        $where = " where 1=1 ";//and orders_date>= '".$LAST_MONTH_DAY."' ";
         if (!$sdate == '') {
             $where .= " and orders_date>='" . $sdate . "'";
         }
@@ -129,6 +133,7 @@ class Orders extends Base
         }
         $db = self::__instance();
         $num = 0 + ($db->query(" select count(*) from " . self::getTableName() . $where)->fetchColumn());
+        //print_r($db->last_query());
         return $num;
     }
 

@@ -1,22 +1,22 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-09-08 01:42:55
+<?php /* Smarty version Smarty-3.1.15, created on 2016-03-22 23:18:11
          compiled from "D:\Server\www\crms\include\template\crms\myorders.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:604553f64a99882169-13817424%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2181656f160828c88e8-54449207%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'e142ff6f961f543710f493f64034091925dc849b' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\crms\\myorders.tpl',
-      1 => 1410111766,
+      1 => 1458659886,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '604553f64a99882169-13817424',
+  'nocache_hash' => '2181656f160828c88e8-54449207',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f64a9990ac31_87255062',
+  'unifunc' => 'content_56f16082aafd14_56659221',
   'variables' => 
   array (
     'osadmin_action_alert' => 0,
@@ -29,10 +29,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'orders_list' => 0,
     'page_html' => 0,
     'osadmin_action_confirm' => 0,
+    'LAST_MONTH_DAY' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f64a9990ac31_87255062')) {function content_53f64a9990ac31_87255062($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
+<?php if ($_valid && !is_callable('content_56f16082aafd14_56659221')) {function content_56f16082aafd14_56659221($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
 ?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
 <?php echo $_smarty_tpl->getSubTemplate ("navibar.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
@@ -47,6 +48,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <style type="text/css">
 	.btn-group small.btn{padding:4px 6px;}
+    .popover{
+        z-index:1060;
+        width:520px;
+        min-height:300px;
+        overflow:auto;
+    }
 </style>
 <div class="">
 	<form class="form_search" action="" method="GET" style="margin-bottom:0px" id="myorders-form">
@@ -330,6 +337,17 @@ $_smarty_tpl->tpl_vars['myods']->_loop = true;
 		}});
 	}
 
+    //订单物流状态跟踪
+    var getWlMidtrace = function(data,nu) {
+        var str_html = '<div id="wl-midtrace"><ul>';
+        jQuery.each( data, function( i, json ) {
+            str_html += '<li><span class="wl-stream-time">'+json['time']+'</span>';
+            str_html += '<span class="wl-stream-text">'+json['context']+'</span></li>';
+        });
+        str_html += '</ul></div>';
+        return str_html;
+    };
+
 	//跟踪处理订单状态及明细查看
 	function openModalforProcess(url,title){
 		var header = url.indexOf('_verify')>0?(url.indexOf('a=view')>0?'查看订单: ':'订单审核: '):'订单跟踪处理: ';
@@ -360,26 +378,68 @@ $_smarty_tpl->tpl_vars['myods']->_loop = true;
 				}
 			},{"label" : "关闭", "class" : "btn"}]
 		}
-		jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate) {
+		jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate){
 			var bbd=bootbox.dialog(rspDate,	btn, {"header":header + title,"classes": "modal-large"});
+			bbd.on('hide',function(){
+			    $('#example').popover('destroy');
+			});
 			//订单change事件
 			bbd.find('input:radio[name=status]').on('change',function(){
-				if( $.inArray($(this).val(),['canceling','refused']) >=0 ){
+				if( $.inArray( $(this).val(),['canceling','refused']) >=0 ){
 					$('#cancelNote').attr("required","true").show();
 				}else{
 					$('#cancelNote').removeAttr("required").hide();
 				}
 			});
-		}});
+            bbd.find("#example").on('mouseenter',function(){
+                $this = $(this);
+                if($(this).attr('data-show')!=1) {
+                    $this.popover({content:'正在努力加载中...'}).popover('show');
+                    var expressNo = $(this).attr("data-v");
+                    var formData = 'method=ajax_expresstrack&express_no=' + expressNo;
+                    jQuery.ajax({
+                        type: 'get',
+                        url: '<?php echo @constant('ADMIN_URL');?>
+/ajax/orders.php',
+                        data: formData,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data['status'] > 0) {
+                                $this.attr('data-show', '1');
+                                if($this.data('popover')!=null){
+                                    $this.popover('hide');
+                                    $this.removeData('popover');
+                                }
+                                $this.attr('data-content', getWlMidtrace(data['data'], expressNo));
+                                $this.popover('show');
+                            }else {
+                                $this.attr('data-show', '0');
+                                $this.attr('data-content','还没有物流信息哦!');
+                                $this.popover('show');
+                            }
+                        }
+                    });
+                }else {
+                    $this.popover('show');
+                }
+            }).on('mouseleave',function(event) {
+                $(this).popover('hide');
+            });
+        }});
 	}
 
+
 	$(document).ready(function() {
+
 		//指定600秒刷新一次
 		setTimeout(function(){myrefresh();},600000);
 		//日期时间选择器
 		$('.datetimepicker').datetimepicker({
 			language: 'zh-CN',
-			pickTime: false
+			pickTime: false ,
+            startDate: '<?php echo $_smarty_tpl->tpl_vars['LAST_MONTH_DAY']->value;?>
+',
+            todayBtn: true
 		});	
 		//订单组方按钮事件
 		$('.oitem-add').on('click',function(event){
@@ -405,4 +465,5 @@ $_smarty_tpl->tpl_vars['myods']->_loop = true;
 </script>
 <!-- TPLEND 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
 <?php }} ?>

@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-09-24 00:27:08
+<?php /* Smarty version Smarty-3.1.15, created on 2015-05-22 00:14:47
          compiled from "D:\Server\www\crms\include\template\crms\customers.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1465553f862533bba99-52142697%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:25224555e0477f1bed6-77764356%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '539fcd4e19ec4b34984567af3b5c026fcd6d7b21' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\crms\\customers.tpl',
-      1 => 1411489621,
+      1 => 1417624164,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1465553f862533bba99-52142697',
+  'nocache_hash' => '25224555e0477f1bed6-77764356',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f86253492520_64892248',
   'variables' => 
   array (
     'osadmin_action_alert' => 0,
@@ -33,8 +31,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'osadmin_action_confirm' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_555e047811dee6_51924260',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f86253492520_64892248')) {function content_53f86253492520_64892248($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
+<?php if ($_valid && !is_callable('content_555e047811dee6_51924260')) {function content_555e047811dee6_51924260($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
 ?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
 <?php echo $_smarty_tpl->getSubTemplate ("navibar.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
@@ -50,7 +50,25 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <style type="text/css">
 	small.btn{vertical-align:baseline;}
-
+    .popover{
+        width:500px;
+        min-height:100px;
+    }
+    #sale-logs ul li{
+        list-style: none;
+        margin-left:0;
+        padding-left:0;
+    }
+    #sale-logs li span.stream-time{
+        display:inline-block;
+        color: darkgreen;
+        margin-right:15px;
+        width:180px;
+    }
+    #sale-logs li span.stream-text{
+        display:inline-block;
+        width:250px;
+    }
 </style>
 <div id='loading'>正在处理中...</div>
 <div class="">
@@ -66,7 +84,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<div style="float:left;margin-right:5px">
 		<label>从</label>
 		<div class="input-append datetimepicker" >
-		    <input data-format="yyyy-MM-dd" type="text" name="sdate" value="<?php echo $_smarty_tpl->tpl_vars['_GET']->value['sdate'];?>
+		    <input data-format="yyyy-MM-dd" type="text" name="sdate" id="sdate" value="<?php echo $_smarty_tpl->tpl_vars['_GET']->value['sdate'];?>
 " class="input-small"></input>
 		    <span class="add-on">
 		    	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -76,7 +94,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<div style="float:left;margin-right:5px">
 		<label>到</label>
 		<div class="input-append datetimepicker" >
-		    <input data-format="yyyy-MM-dd" type="text" name="edate" value="<?php echo $_smarty_tpl->tpl_vars['_GET']->value['edate'];?>
+		    <input data-format="yyyy-MM-dd" type="text" name="edate" id="edate" value="<?php echo $_smarty_tpl->tpl_vars['_GET']->value['edate'];?>
 " class="input-small"></input>
 		    <span class="add-on">
 		    	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -140,7 +158,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 			<span class="btn-group">
 				<small class="btn" id="customers_add"><i class="icon-plus-sign"></i> 新增</small>
 				<small class="btn btn-tool" data-action="remove" id="customers_remove" data-target="#myModal" data-toggle="modal"><i class="icon-trash"></i> 删除</small>
-
 			</span>
 		<?php } elseif ($_smarty_tpl->tpl_vars['current_user_info']->value['user_group']==4) {?>
 			<small class="btn" id="customers_add"><i class="icon-plus-sign"></i> 新增</small>
@@ -157,11 +174,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<th>年龄</th>
 				<th>手机号码</th>
 				<th>电话</th -->
+                <th>地址</th>
 				<th>病症</th>
-				<th>地址</th>
 				<th>客户阶段</th>
+                <th>客户状态</th>
 				<th>责任人</th>
-				<th>客户状态</th>
+                <th>查看</th>
 				<th>操作</th>
             </tr>
           </thead>
@@ -184,16 +202,25 @@ $_smarty_tpl->tpl_vars['customer']->_loop = true;
 </td>
 					<td><?php echo substr_replace($_smarty_tpl->tpl_vars['customer']->value['telphone'],'****','-5','4');?>
 </td-->
-					<td><?php echo $_smarty_tpl->tpl_vars['customer']->value['health_diagnosis'];?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['customer']->value['address'];?>
 </td>
-					<td><?php echo $_smarty_tpl->tpl_vars['customer']->value['address'];?>
+					<td><?php echo $_smarty_tpl->tpl_vars['customer']->value['health_diagnosis'];?>
 </td>
 					<td><?php if ($_smarty_tpl->tpl_vars['customer']->value['type']!='') {?><?php echo $_smarty_tpl->tpl_vars['type_options_list']->value[$_smarty_tpl->tpl_vars['customer']->value['type']];?>
 <?php }?></td>
+                    <td><?php echo $_smarty_tpl->tpl_vars['status_options_list']->value[$_smarty_tpl->tpl_vars['customer']->value['status']];?>
+</td>
 					<td><?php if ($_smarty_tpl->tpl_vars['customer']->value['vested']!='') {?><?php echo $_smarty_tpl->tpl_vars['saler_options_list']->value[$_smarty_tpl->tpl_vars['customer']->value['vested']];?>
 <?php }?></td>
-					<td><?php echo $_smarty_tpl->tpl_vars['status_options_list']->value[$_smarty_tpl->tpl_vars['customer']->value['status']];?>
-</td>
+                    <td><?php if ($_smarty_tpl->tpl_vars['customer']->value['vested']!='') {?>
+                        <small class="view-sale" rel="popover" data-uid="<?php echo $_smarty_tpl->tpl_vars['customer']->value['vested'];?>
+" data-cid="<?php echo $_smarty_tpl->tpl_vars['customer']->value['id'];?>
+" data-title="沟通信息" data-placement="left">沟通信息</small>
+                        <small class="view-duration" rel="popover" data-ext="<?php echo $_smarty_tpl->tpl_vars['customer']->value['ext'];?>
+" data-cno="<?php echo $_smarty_tpl->tpl_vars['customer']->value['mobile'];?>
+" data-title="通话时长" data-placement="left">| 通话时长</small>
+                        <?php }?>
+                    </td>
 					<td>
 						<a href="customer_modify.php?p=_blk&customerId=<?php echo $_smarty_tpl->tpl_vars['customer']->value['id'];?>
 " target="_blank" title= "查看客户信息" ><i class="icon-eye-open"></i></a>
@@ -211,12 +238,99 @@ $_smarty_tpl->tpl_vars['customer']->_loop = true;
 </div>
 <script type="text/javascript">
     var url = '/ajax/exportCsv.php?t=customer&n='+Math.random();
+    var getSaleLogs = function(data) {
+        //alert(data);
+        var str_html = '<div id="sale-logs"><ul>';
+        jQuery.each( data, function( i, json ) {
+            str_html += '<li><span class="stream-time">'+json['sale_date']+'</span>';
+            str_html += '<span class="stream-text">'+json['sale_content']+'</span></li>';
+        });
+        str_html += '</ul></div>';
+        return str_html;
+    };
+
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
 		$('.datetimepicker').datetimepicker({
 	        language: 'zh-CN',
 	        pickTime: false
 	    });
+
+        //获取通话时长
+        $(".view-duration").on('click',function() {
+            var $this = $(this);
+            $this.popover({content:'正在努力加载中...'}).popover('show');
+            if($(this).attr('data-show')!=1) {
+                var _ext = $(this).attr('data-ext');
+                var _cno = $(this).attr('data-cno');
+                var _sdate = $('#sdate').val();
+                var _edate = $('#edate').val();
+                jQuery.ajax({
+                    type: 'get',
+                    url: '<?php echo @constant('ADMIN_URL');?>
+/ajax/crms.php',
+                    data: 'method=ajax_sumDuration&ext=' + _ext + '&cno=' + _cno + '&sdate=' + _sdate + '&edate=' + _edate,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == 1) {
+                            $this.attr('data-show', '1');
+                            if($this.data('popover')!=null){
+                                $this.popover('hide');
+                                $this.removeData('popover');
+                            }
+                            $this.attr('data-content', data['duration']);
+                            $this.popover('show');
+                        } else {
+                            $this.attr('data-show', '0');
+                            $this.attr('data-content', '还没有通话记录哦!');
+                            $this.popover('show');
+                        }
+
+                        setTimeout(function() {$this.popover('hide');}, 3000);
+                    }
+                });
+            }else{
+                $this.popover('show');
+            }
+        });
+
+        //获取沟通信息
+        $(".view-sale").on('click',function() {
+            var $this = $(this);
+            if($(this).attr('data-show')!=1) {
+                $this.popover({content:'正在努力加载中...'}).popover('show');
+                var _vested = $(this).attr('data-uid');
+                var _customerid = $(this).attr('data-cid');
+                var _sdate = $('#sdate').val();
+                var _edate = $('#edate').val();
+                jQuery.ajax({
+                    type: 'get',
+                    url: '<?php echo @constant('ADMIN_URL');?>
+/ajax/crms.php',
+                    data: 'method=ajax_getSaleLog&vested=' + _vested + '&customerId=' + _customerid + '&sdate=' + _sdate + '&edate=' + _edate,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == 1) {
+                            $this.attr('data-show', '1');
+                            if($this.data('popover')!=null){
+                                $this.popover('hide');
+                                $this.removeData('popover');
+                            }
+                            $this.attr('data-content', getSaleLogs(data['data']));
+                            $this.popover('show');
+                        } else {
+                            $this.attr('data-show', '0');
+                            $this.attr('data-content', '还没有沟通记录哦!');
+                            $this.popover('show');
+                        }
+                    }
+                });
+            }else{
+                $this.popover('show');
+            }
+            setTimeout(function() {$this.popover('hide');}, 3000);
+        });
+
 		//"全选"
 		$("#checkAll").click(function(){
 		     if($(this).attr("checked")){

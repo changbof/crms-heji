@@ -25,5 +25,5 @@ if($order!="")
 Template::assign('myNotes',$myNotes);
 Template::assign('sysNotes',$sysNotes);
 Template::assign('statOrders',$statOrders);
-Template::assign ('menus' ,$menus);
-Template::display ('index.tpl');
+Template::assign('menus' ,$menus);
+Template::display('index.tpl');

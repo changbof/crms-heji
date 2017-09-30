@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-09-06 02:22:53
+<?php /* Smarty version Smarty-3.1.15, created on 2016-03-23 22:27:53
          compiled from "D:\Server\www\crms\include\template\crms\orders_add.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:109175409fc9c46ac55-72048370%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1260556f2a7e9a80af5-52399179%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '109175409fc9c46ac55-72048370',
+  'nocache_hash' => '1260556f2a7e9a80af5-52399179',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_5409fc9c4ef879_11783794',
   'variables' => 
   array (
     'customerId' => 0,
@@ -28,8 +26,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'other_tel' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_56f2a7e9ade966_95696630',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5409fc9c4ef879_11783794')) {function content_5409fc9c4ef879_11783794($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_56f2a7e9ade966_95696630')) {function content_56f2a7e9ade966_95696630($_smarty_tpl) {?>
 <div class="container-fluid" id="modal-orders">
 	<div class="bb-alert alert alert-info alert-block" style="display: none;">
 		<span>新增订购成功</span>

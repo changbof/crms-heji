@@ -1,28 +1,33 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-08-25 23:16:12
+<?php /* Smarty version Smarty-3.1.15, created on 2015-05-22 00:14:28
          compiled from "D:\Server\www\crms\include\template\footer.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:728753f64a7b55b939-90528125%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:409555e04645a72c4-94512301%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '5d07c188347c253de3c5df0c37c17c5e8b7e5e95' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\footer.tpl',
-      1 => 1408906884,
+      1 => 1415122620,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '728753f64a7b55b939-90528125',
+  'nocache_hash' => '409555e04645a72c4-94512301',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f64a7b5d4461_53427841',
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_555e04645f0449_33961373',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f64a7b5d4461_53427841')) {function content_53f64a7b5d4461_53427841($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_555e04645f0449_33961373')) {function content_555e04645f0449_33961373($_smarty_tpl) {?>
 				<footer>
+                    <p>北京东方和济医疗科技有限公司  版权所有</p>
                     <hr>
-                    <p class="pull-right">Customer Management System.</p>
+                    <p style="text-align: center;">
+                        <span class="pull-right">Customer Management System.</span>
+                        <span>营养咨询热线：400-0070-100 或 010-8103 1881</span>
+                    </p>
+                    <p style="text-align: center"><span>医学化验报告接受传真：400-6981-163 转 221542</span></p>
                 </footer>
 			</div>
 		</div>

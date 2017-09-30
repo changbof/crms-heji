@@ -1,30 +1,30 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-08-22 03:37:30
+<?php /* Smarty version Smarty-3.1.15, created on 2016-03-23 22:20:11
          compiled from "D:\Server\www\crms\include\template\main.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:377153f64a7abb8617-04971808%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:20495555e0471603c51-18171775%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'db9912a94fb4727c6a784c11d2b93bb5e37441d2' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\main.tpl',
-      1 => 1408640261,
+      1 => 1458742025,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '377153f64a7abb8617-04971808',
+  'nocache_hash' => '20495555e0471603c51-18171775',
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_555e0471635436_67402456',
   'variables' => 
   array (
     'page_title' => 0,
     'user_info' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f64a7ac86606_93546723',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f64a7ac86606_93546723')) {function content_53f64a7ac86606_93546723($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_555e0471635436_67402456')) {function content_555e0471635436_67402456($_smarty_tpl) {?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -180,14 +180,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		IntWebIM();
 	}
 	//autoChat();
-	$(document).ready(function() {
-
-		//$('#imjs-bar').hide();
-		
-		$(document).on('load',function(){dyniframesize()});
-		$(document).on('keydown',function(){refreshIframe()});
-
-	});
-
+    (function($) {
+        $(document).ready(function () {
+            //$('#imjs-bar').hide();
+            $(document).on('load', function (){dyniframesize()});
+            $(document).on('keydown', function (){refreshIframe()});
+        });
+    })(jQuery);
 </script>
 </html><?php }} ?>

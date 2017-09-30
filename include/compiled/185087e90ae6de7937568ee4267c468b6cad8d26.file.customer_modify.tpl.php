@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-09-02 00:39:38
+<?php /* Smarty version Smarty-3.1.15, created on 2016-03-23 22:18:47
          compiled from "D:\Server\www\crms\include\template\crms\customer_modify.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1546953f8eeb707dbb7-79341993%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:203256f2a5c730a310-52771765%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '185087e90ae6de7937568ee4267c468b6cad8d26' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\crms\\customer_modify.tpl',
-      1 => 1409493468,
+      1 => 1432222390,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1546953f8eeb707dbb7-79341993',
+  'nocache_hash' => '203256f2a5c730a310-52771765',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f8eeb723c280_50891147',
   'variables' => 
   array (
     'osadmin_action_alert' => 0,
@@ -41,15 +39,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'bmin' => 0,
     'salelogs' => 0,
     'sale' => 0,
+    'readonly' => 0,
     'customertype_options' => 0,
+    'op_disabled' => 0,
     'orders' => 0,
     'order' => 0,
     'ordersstatus_options' => 0,
     'ordersId' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_56f2a5c7556e46_90700653',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f8eeb723c280_50891147')) {function content_53f8eeb723c280_50891147($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
+<?php if ($_valid && !is_callable('content_56f2a5c7556e46_90700653')) {function content_56f2a5c7556e46_90700653($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
 if (!is_callable('smarty_modifier_date_format')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\modifier.date_format.php';
 ?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
@@ -129,7 +131,7 @@ if (!is_callable('smarty_modifier_date_format')) include 'D:\\Server\\www\\crms\
 	    margin: 0px;
 	    font: 12px/25px Helvetica Neue,Helvetica,Arial,Calibri,Tahoma,Verdana,sans-serif;
 	    color: #222;
-	    z-index: 99999999;
+	    z-index: 500;
 	    background: #fff;
 	}
 	ul.fast-bar li{
@@ -142,6 +144,14 @@ if (!is_callable('smarty_modifier_date_format')) include 'D:\\Server\\www\\crms\
 	}
 	ul.fast-bar > li:hover {
         background: #fff;
+    }
+
+    .btn-group small.btn{padding:4px 6px;}
+    .popover{
+        z-index:1060;
+        width:520px;
+        min-height:300px;
+        overflow:auto;
     }
 
 	<?php if ($_smarty_tpl->tpl_vars['p']->value) {?>
@@ -239,9 +249,13 @@ if (!is_callable('smarty_modifier_date_format')) include 'D:\\Server\\www\\crms\
 						<div class="control-group info">
 							<label class="control-label"><em>*</em>联系电话</label>
 							<div class="controls">
-								<input type="text" class="input-medium" name="mobile_0" id="mobile_0" required="true" <?php if ($_smarty_tpl->tpl_vars['user_info']->value['user_group']!=1) {?>readonly="true"<?php }?> value="<?php echo substr_replace($_smarty_tpl->tpl_vars['customer']->value['mobile'],'****','3','-1');?>
+								<div class="input-append">
+									<input type="text" class="input-medium" name="mobile_0" id="mobile_0" required="true" <?php if ($_smarty_tpl->tpl_vars['user_info']->value['user_group']!=1) {?>readonly="true"<?php }?> value="<?php echo substr_replace($_smarty_tpl->tpl_vars['customer']->value['mobile'],'****','3','-1');?>
 " rel="tooltip" title="双击此处'电话号码'即可外拨电话!" /><input type="hidden" name="mobile" id="mobile"  value="<?php echo $_smarty_tpl->tpl_vars['customer']->value['mobile'];?>
 " />
+									<span class="add-on btn send-sms" title="给此号码发送短信" data-value="<?php echo $_smarty_tpl->tpl_vars['customer']->value['mobile'];?>
+"><i class="icon-envelope"></i> </span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -249,9 +263,13 @@ if (!is_callable('smarty_modifier_date_format')) include 'D:\\Server\\www\\crms\
 						<div class="control-group info">
 							<label class="control-label">联系电话2</label>
 							<div class="controls">
-								<input type="text" class="input-medium" name="telphone_0" id="telphone_0" <?php if ($_smarty_tpl->tpl_vars['user_info']->value['user_group']!=1) {?>readonly="true"<?php }?> value="<?php echo substr_replace($_smarty_tpl->tpl_vars['customer']->value['telphone'],'****','3','-1');?>
+								<div class="input-append">
+									<input type="text" class="input-medium" name="telphone_0" id="telphone_0" <?php if ($_smarty_tpl->tpl_vars['user_info']->value['user_group']!=1) {?>readonly="true"<?php }?> value="<?php echo substr_replace($_smarty_tpl->tpl_vars['customer']->value['telphone'],'****','3','-1');?>
 " rel="tooltip" title="双击此处'电话号码'即可外拨电话!" /><input type="hidden" name="telphone" id="telphone" value="<?php echo $_smarty_tpl->tpl_vars['customer']->value['telphone'];?>
 " />
+									<span class="add-on btn send-sms" title="给此号码发送短信" data-value="<?php echo $_smarty_tpl->tpl_vars['customer']->value['telphone'];?>
+"><i class="icon-envelope"></i></span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -622,7 +640,7 @@ $_smarty_tpl->tpl_vars['sale']->_loop = true;
 						<label>备注</label>	
 						<textarea class="input input-xlarge" name="remark" id="remark" rows="1"></textarea>
 						<label>沟通情况</label>
-						<?php echo smarty_function_html_options(array('name'=>"customer_type",'id'=>"customer_type",'title'=>"请描述本次沟通情况",'options'=>$_smarty_tpl->tpl_vars['customertype_options']->value,'selected'=>$_smarty_tpl->tpl_vars['customer']->value['type']),$_smarty_tpl);?>
+						<?php echo smarty_function_html_options(array('name'=>"customer_type",'id'=>"customer_type",'title'=>"请描述本次沟通情况",'readonly'=>$_smarty_tpl->tpl_vars['readonly']->value,'options'=>$_smarty_tpl->tpl_vars['customertype_options']->value,'strict'=>'1','odisabled'=>$_smarty_tpl->tpl_vars['op_disabled']->value,'selected'=>$_smarty_tpl->tpl_vars['customer']->value['type']),$_smarty_tpl);?>
 
 						<input type="hidden" name="method" id="method" value="ajax_addSaleLog" />
 						<input type="hidden" name="sale_id" id="saleId" value="" />
@@ -684,8 +702,10 @@ $_smarty_tpl->tpl_vars['order']->_loop = true;
 </td>
 						<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_date'];?>
 </td>
-						<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_title'];?>
-</td>
+						<td><small class="btn btn-link oitem-view" data-url="orders_verify.php?a=view&customerId=<?php echo $_smarty_tpl->tpl_vars['order']->value['customer_id'];?>
+&ordersId=<?php echo $_smarty_tpl->tpl_vars['order']->value['id'];?>
+" title= "查看订单明细"><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_title'];?>
+</small></td>
 						<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_num'];?>
 </td>
 						<td><?php echo $_smarty_tpl->tpl_vars['order']->value['payment_sum'];?>
@@ -700,127 +720,141 @@ $_smarty_tpl->tpl_vars['order']->_loop = true;
 			</table>
 		</div>
 	</div>
-	<!-- div class="tab-pane" id="salelog">
-		<div class="row-fluid">
-			<div class="span8">
-				<table class="table table-striped table-bordered table-hover" id="salelog_list" style="margin-top:30px;">
-					<thead>
-						<tr>
-							<th class="hide">#</th>
-							<th>沟通日期</th>
-							<th>沟通内容</th>
-							<th>客户分析</th>
-							<th>备注</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php  $_smarty_tpl->tpl_vars['sale'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['sale']->_loop = false;
- $_from = $_smarty_tpl->tpl_vars['salelogs']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
-foreach ($_from as $_smarty_tpl->tpl_vars['sale']->key => $_smarty_tpl->tpl_vars['sale']->value) {
-$_smarty_tpl->tpl_vars['sale']->_loop = true;
-?>				 
-						<tr>
-							<td class="hide"><?php echo $_smarty_tpl->tpl_vars['sale']->value['id'];?>
-</td>
-							<td><?php echo $_smarty_tpl->tpl_vars['sale']->value['sale_date'];?>
-</td>
-							<td><?php echo $_smarty_tpl->tpl_vars['sale']->value['sale_content'];?>
-</td>
-							<td><?php echo $_smarty_tpl->tpl_vars['sale']->value['sale_analysis'];?>
-</td>
-							<td>[<?php echo $_smarty_tpl->tpl_vars['sale']->value['sale_effect'];?>
-] <?php echo $_smarty_tpl->tpl_vars['sale']->value['remark'];?>
-</td>
-						</tr>
-						<?php } ?>
-					</tbody>
-				</table>
-			</div>
-			<div class="span4">
-				<h4> 沟通记录:</h4>
-				<form data-async action="<?php echo @constant('ADMIN_URL');?>
-/ajax/orders.php" method="post" name="form2" id="salelog-form" data-target="salelog_list">
-					<label>沟通简要</label>	
-					<textarea class="input input-xlarge" name="sale_content" id="sale_content" rows="3" required="true"></textarea>
-					<label>客户分析</label>	
-					<textarea class="input input-xlarge" name="sale_analysis" id="sale_analysis" rows="2"></textarea>
-					<label>备注</label>	
-					<textarea class="input input-xlarge" name="remark" id="remark" rows="1"></textarea>
-					<label>沟通情况</label>
-					<?php echo smarty_function_html_options(array('name'=>"customer_type",'id'=>"customer_type",'title'=>"请描述本次沟通情况",'options'=>$_smarty_tpl->tpl_vars['customertype_options']->value,'selected'=>$_smarty_tpl->tpl_vars['customer']->value['type']),$_smarty_tpl);?>
-
-					<input type="hidden" name="method" id="method" value="ajax_addSaleLog" />
-					<input type="hidden" name="sale_id" id="saleId" value="" />
-					<div class="btn-toolbar">
-					<?php if ($_smarty_tpl->tpl_vars['customer']->value['vested']==$_smarty_tpl->tpl_vars['user_info']->value['user_id']) {?>
-						<button type="submit" class="btn btn-primary"><i class="icon-save"></i> 保存</button>
-						<input type="reset" class="btn" value="取消" />
-						<a href="" class="btn hide" id="btn-addOrders"><i class="icon-plus-sign"></i> 新增订购 </a>
-					<?php }?>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="tab-pane" id="orders">
-		<div class="block-heading"><strong><?php echo $_smarty_tpl->tpl_vars['customer']->value['name'];?>
-</strong> 最近10次消费记录:
-		<?php if ($_smarty_tpl->tpl_vars['customer']->value['vested']==$_smarty_tpl->tpl_vars['user_info']->value['user_id']) {?>
-			<span class="pull-right btn-group">
-				<small class="btn" id="orders_add"><i class="icon-plus-sign"></i> 新增订购</small>
-				<small class="btn" id="orders_modify"><i class="icon-edit"></i> 修改</small>
-				<small class="btn" id="orders_cancel"><i class="icon-ban-circle"></i> 取消</small>
-				<small class="btn" id="orders_process"><i class="icon-ok-circle hide"></i> 确认订单</small>
-				<small class="btn" id="orders_remove"><i class="icon-trash"></i> 删除</small>
-			</span>
-		<?php }?>
-		</div>
-		<table class="table table-striped table-bordered table-hover" id="orders_list">
-			<thead>
-				<tr>
-					<th class="hide">id</th>
-					<th>订单编号</th>
-					<th>订购日期</th>
-					<th>订单标题</th>
-					<th>数量</th>
-					<th>金额(元)</th>
-					<th>赠品</th>
-					<th>状态</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php  $_smarty_tpl->tpl_vars['order'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['order']->_loop = false;
- $_from = $_smarty_tpl->tpl_vars['orders']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
-foreach ($_from as $_smarty_tpl->tpl_vars['order']->key => $_smarty_tpl->tpl_vars['order']->value) {
-$_smarty_tpl->tpl_vars['order']->_loop = true;
-?>				 
-				<tr>
-					<td class="hide"><?php echo $_smarty_tpl->tpl_vars['order']->value['id'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_no'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_date'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_title'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['order']->value['orders_num'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['order']->value['payment_sum'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['order']->value['gift'];?>
-</td>
-					<td><?php echo $_smarty_tpl->tpl_vars['ordersstatus_options']->value[$_smarty_tpl->tpl_vars['order']->value['status']];?>
-</td>
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table>
-	</div -->
 </div>
 
 <script type="text/javascript">
 	var status_array = <?php echo json_encode($_smarty_tpl->tpl_vars['ordersstatus_options']->value);?>
 ;
+
+    //订单物流状态跟踪
+    var getWlMidtrace = function(data,nu) {
+        var str_html = '<div id="wl-midtrace"><ul>';
+        jQuery.each( data, function( i, json ) {
+            str_html += '<li><span class="wl-stream-time">'+json['time']+'</span>';
+            str_html += '<span class="wl-stream-text">'+json['context']+'</span></li>';
+        });
+        str_html += '</ul></div>';
+        return str_html;
+    };
+    //跟踪处理订单状态及明细查看
+    function openModalforProcess(url,title){
+        var header = url.indexOf('_verify')>0?(url.indexOf('a=view')>0?'查看订单: ':'订单审核: '):'订单跟踪处理: ';
+        var formId = url.split(".")[0];
+        var btn = [{"label" : "关闭","class" : "btn",}];
+        if(url.indexOf('a=view')<0){
+            btn = [{
+                "label" : "确定",
+                "class" : "btn-primary",
+                "callback": function(ev) {
+                    var $form = $('#'+formId+'_form');
+                    $.ajax({
+                        type: $form.attr('method'),
+                        url: $form.attr('action'),
+                        data: $form.serialize(),
+                        dataType:'json',
+                        success: function(json, status) {
+                            if(json.result==1){
+                                bootbox.alert(json.msg,function(){
+                                    window.location.reload(true);
+                                });
+                            }else{
+                                bootbox.alert(json.msg);
+                            }
+                        }
+                    });
+                    ev.preventDefault();
+                }
+            },{"label" : "关闭", "class" : "btn"}]
+        }
+        jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate){
+			var bbd=bootbox.dialog(rspDate,	btn, {"header":header + title,"classes": "modal-large"});
+			bbd.on('hide',function(){
+			    $('#example').popover('destroy');
+			});
+        //订单change事件
+        bbd.find('input:radio[name=status]').on('change',function(){
+            if( $.inArray( $(this).val(),['canceling','refused']) >=0 ){
+                $('#cancelNote').attr("required","true").show();
+            }else{
+                $('#cancelNote').removeAttr("required").hide();
+            }
+        });
+        bbd.find("#example").on('mouseenter',function(){
+            $this = $(this);
+            if($(this).attr('data-show')!=1) {
+                $this.popover({content:'正在努力加载中...'}).popover('show');
+                var expressNo = $(this).attr("data-v");
+                var formData = 'method=ajax_expresstrack&express_no=' + expressNo;
+                jQuery.ajax({
+                    type: 'get',
+                    url: '<?php echo @constant('ADMIN_URL');?>
+/ajax/orders.php',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['status'] > 0) {
+                            $this.attr('data-show', '1');
+                            if($this.data('popover')!=null){
+                                $this.popover('hide');
+                                $this.removeData('popover');
+                            }
+                            $this.attr('data-content', getWlMidtrace(data['data'], expressNo));
+                            $this.popover('show');
+                        }else {
+                            $this.attr('data-show', '0');
+                            $this.attr('data-content','还没有物流信息哦!');
+                            $this.popover('show');
+                        }
+                    }
+                });
+            }else {
+                $this.popover('show');
+            }
+        }).on('mouseleave',function(event) {
+            $(this).popover('hide');
+        });
+    }});
+    }
+	//发短信
+	function openModalforSendSMS(url){
+		var btn = [{"label" : "关闭"}];
+		btn = [{
+			"label" : "发送",
+			"class" : "btn-primary",
+			"callback": function(ev) {
+				var formData = "status=determine&ordersId="+$('#ordersId').val()+"&method=ajax_processOrders";
+				$.ajax({
+					type: 'GET',
+					url: $('#orders_item_form').attr('action'),
+					data: formData,
+					dataType:'json',
+					success: function(json, status) {
+						if(json.result==1){
+							bootbox.alert(json.msg,function(){
+								window.location.reload(true);
+							});
+						}else{
+							bootbox.alert(json.msg);
+						}
+					}
+				});
+				ev.preventDefault();
+			}
+		},{"label" : "关闭", "class" : "btn"}];
+
+		jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate) {
+			var bbd=bootbox.dialog(rspDate,	btn, {"classes": "modal-large"});
+			bbd.find(".spinner").spinner();
+			bbd.find('.selectpicker').selectpicker();
+			// 产品change事件
+			bbd.find('#product_id').on('change',function(){
+				var pName = $(this).find('option:selected').text();
+				$('#productName').val(pName);
+				var pSpec = $(this).find('option:selected').attr('data-spec');
+				$('#item_spec').val(pSpec);
+			});
+	}});
+	}
 
 	//组方
 	function openModalforOrdersItem(url){
@@ -843,7 +877,6 @@ $_smarty_tpl->tpl_vars['order']->_loop = true;
 						}else{
 							bootbox.alert(json.msg);
 						}
-
 					}
 				});
 				ev.preventDefault();
@@ -998,7 +1031,7 @@ $_smarty_tpl->tpl_vars['order']->_loop = true;
 				});
 				bbd.find('.selectpicker').selectpicker();
 				bbd.find('textarea').autosize();
-				bbd.find('#orders_tel_0').on('change',function(){//隐藏电话号码后面4位,以"*"代替
+				bbd.find('#orders_tel_0').on('change',function(){ //隐藏电话号码后面4位,以"*"代替
 					var v = $(this).val();
                     if(v.indexOf('*')==-1){
                         var tmpid = $(this).attr("id");
@@ -1006,7 +1039,6 @@ $_smarty_tpl->tpl_vars['order']->_loop = true;
                         $('#'+oid).val(v);
                         $(this).val(substr_replace(v,"****",3,-1));
                     }
-
 				});
 			}
 			bbd.find('input:radio[name=status]').on('change',function(){
@@ -1298,6 +1330,26 @@ $_smarty_tpl->tpl_vars['order']->_loop = true;
 			}
 		});
 
+		//短信发送
+		$('span.send-sms').on('click',function(){
+			if($(this).attr('data-value')==''){
+				bootbox.alert("对方号码不是一个正确的手机号码，不能发送手机短信息！");
+				return;
+			}
+			var sendTo = $(this).attr('data-value') ;
+			var url = "sms_send.php?sendTo="+sendTo;
+			openModalforSendSMS(url);
+			return false;
+		});
+
+        //查看订单状态
+        var cusName = '<?php echo $_smarty_tpl->tpl_vars['customer']->value['name'];?>
+';
+        $('.oitem-view').on('click',function(){
+            var url = $(this).attr('data-url') ;
+            var _title = cusName;
+            openModalforProcess(url,_title);
+        });
 	});
 
 </script>

@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-08-22 04:35:55
+<?php /* Smarty version Smarty-3.1.15, created on 2016-03-22 23:18:12
          compiled from "D:\Server\www\crms\include\template\crms\stat_orders.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1430753f6582bd3d224-31502615%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:571156f1623481b3b7-26105460%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '75243f81e9f60a98b642bceece5ecaed0acfaeb5' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\crms\\stat_orders.tpl',
-      1 => 1406950864,
+      1 => 1408902701,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1430753f6582bd3d224-31502615',
+  'nocache_hash' => '571156f1623481b3b7-26105460',
   'function' => 
   array (
   ),
@@ -28,9 +28,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f6582be2a7c5_79092018',
+  'unifunc' => 'content_56f1623488b9a7_30631088',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f6582be2a7c5_79092018')) {function content_53f6582be2a7c5_79092018($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
+<?php if ($_valid && !is_callable('content_56f1623488b9a7_30631088')) {function content_56f1623488b9a7_30631088($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
 ?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
 <?php echo $_smarty_tpl->getSubTemplate ("navibar.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
@@ -101,12 +101,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 					<th>未审金额</th>
 					<th>待签单</th>
 					<th>待签金额</th>
+                    <th>到达单</th>
+                    <th>到达金额</th>
 					<th>已签单</th>
 					<th>已签金额</th>
 					<th>退签单</th>
 					<th>退签金额</th>
-					<th>取消单</th>
-					<th>取消金额</th>
+					<!--th>取消单</th>
+					<th>取消金额</th-->
 				</tr>
 			</thead>
 			<tbody>							  
@@ -135,6 +137,10 @@ $_smarty_tpl->tpl_vars['so']->_loop = true;
 </td>
 					<td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_sum_dqs'];?>
 </td>
+                    <td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_num_dd'];?>
+</td>
+                    <td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_sum_dd'];?>
+</td>
 					<td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_num_yqs'];?>
 </td>
 					<td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_sum_yqs'];?>
@@ -143,10 +149,10 @@ $_smarty_tpl->tpl_vars['so']->_loop = true;
 </td>
 					<td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_sum_tq'];?>
 </td>
-					<td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_num_qx'];?>
+					<!--td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_num_qx'];?>
 </td>
 					<td><?php echo $_smarty_tpl->tpl_vars['so']->value['ords_sum_qx'];?>
-</td>
+</td-->
 				</tr>
 				<?php } ?>
 			</tbody>

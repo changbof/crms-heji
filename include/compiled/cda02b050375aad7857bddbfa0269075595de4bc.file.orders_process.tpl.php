@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-09-08 02:19:00
+<?php /* Smarty version Smarty-3.1.15, created on 2017-09-20 22:55:19
          compiled from "D:\Server\www\crms\include\template\crms\orders_process.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:196485404a173c45051-26381760%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2810959c2815768d7a4-22603876%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'cda02b050375aad7857bddbfa0269075595de4bc' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\crms\\orders_process.tpl',
-      1 => 1410113932,
+      1 => 1417024184,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '196485404a173c45051-26381760',
+  'nocache_hash' => '2810959c2815768d7a4-22603876',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_5404a173cb4210_20988689',
   'variables' => 
   array (
     'orders' => 0,
@@ -26,8 +24,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'orders_list' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.15',
+  'unifunc' => 'content_59c2815771ec62_80312773',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5404a173cb4210_20988689')) {function content_5404a173cb4210_20988689($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
+<?php if ($_valid && !is_callable('content_59c2815771ec62_80312773')) {function content_59c2815771ec62_80312773($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include 'D:\\Server\\www\\crms\\include\\config/../../include/lib/Smarty/plugins\\function.html_options.php';
 ?>
 <div class="container-fluid" id="modal-process">
 	<div class="bb-alert alert alert-info alert-block" style="display: none;">
@@ -36,27 +36,29 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 	<form action="<?php echo @constant('ADMIN_URL');?>
 /ajax/orders.php" class="form-horizontal" name="orders_process_form" id="orders_process_form" method="post">
-		<input type="hidden" name="ordersId" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['id'];?>
+        <input type="hidden" name="customerId" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['customer_id'];?>
+">
+        <input type="hidden" name="ordersId" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['id'];?>
 ">
 		<input type="hidden" name="method" value="ajax_processOrders">
 		<div class="control-group">
 			<label class="control-label">订购产品:</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['orders_title'];?>
+				<span class="input-medium uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['orders_title'];?>
 </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">数量</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['orders_num'];?>
+				<span class="input-medium uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['orders_num'];?>
 </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">总金额(元)</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['payment_sum'];?>
+				<span class="input-medium uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['payment_sum'];?>
 </span>
 			</div>
 		</div>
@@ -64,7 +66,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		<div class="control-group">
 			<label class="control-label">备注: </label>
 			<div class="controls">
-				<input type="text" name="gift" class="input-xlarge" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['gift'];?>
+				<input type="text" name="gift" class="input-medium" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['gift'];?>
 " />
 			</div>
 		</div>
@@ -80,11 +82,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <div class="control-group">
             <label class="control-label">速递公司: </label>
             <div class="controls">
-                <?php if ($_smarty_tpl->tpl_vars['orders']->value['status']=='verifying'&&$_smarty_tpl->tpl_vars['user_info']->value['user_group']==6) {?>
-                    <?php echo smarty_function_html_options(array('name'=>"shipped_express",'class'=>"input-xlarge",'options'=>$_smarty_tpl->tpl_vars['expressCompany_options']->value,'selected'=>$_smarty_tpl->tpl_vars['orders']->value['shipped_express']),$_smarty_tpl);?>
+                <?php if (($_smarty_tpl->tpl_vars['orders']->value['status']=='verifying'&&$_smarty_tpl->tpl_vars['user_info']->value['user_group']==6)||($_smarty_tpl->tpl_vars['orders']->value['status']=='audited'&&$_smarty_tpl->tpl_vars['user_info']->value['user_group']==8)) {?>
+                    <?php echo smarty_function_html_options(array('name'=>"shipped_express",'class'=>"input-medium",'options'=>$_smarty_tpl->tpl_vars['expressCompany_options']->value,'selected'=>$_smarty_tpl->tpl_vars['orders']->value['shipped_express']),$_smarty_tpl);?>
 
                 <?php } else { ?>
-                    <?php echo smarty_function_html_options(array('name'=>"shipped_express",'class'=>"input-xlarge",'disabled'=>"disabled",'options'=>$_smarty_tpl->tpl_vars['expressCompany_options']->value,'selected'=>$_smarty_tpl->tpl_vars['orders']->value['shipped_express']),$_smarty_tpl);?>
+                    <?php echo smarty_function_html_options(array('name'=>"shipped_express",'class'=>"input-medium",'disabled'=>"disabled",'options'=>$_smarty_tpl->tpl_vars['expressCompany_options']->value,'selected'=>$_smarty_tpl->tpl_vars['orders']->value['shipped_express']),$_smarty_tpl);?>
 
                 <?php }?>
             </div>
@@ -92,8 +94,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <div class="control-group">
             <label class="control-label">快递单号: </label>
             <div class="controls">
-                <input type="text" name="express_no" class="input-xlarge" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['express_no'];?>
-" <?php if ($_smarty_tpl->tpl_vars['orders']->value['status']=='audited'&&$_smarty_tpl->tpl_vars['user_info']->value['user_group']==8) {?> disabled="disabled" <?php } else { ?> readonly="readonly" <?php }?> />
+                <input type="text" name="express_no" class="input-medium" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['express_no'];?>
+" <?php if ($_smarty_tpl->tpl_vars['orders']->value['status']!='audited'||$_smarty_tpl->tpl_vars['user_info']->value['user_group']!=8) {?> disabled="disabled" <?php }?> />
             </div>
         </div>
 
@@ -156,14 +158,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		<div class="control-group">
 			<label class="control-label">取消原因</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['cancel_note'];?>
+				<span class="input-medium uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['cancel_note'];?>
 </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">取消时间</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['cancel_date'];?>
+				<span class="input-medium uneditable-input"><?php echo $_smarty_tpl->tpl_vars['orders']->value['cancel_date'];?>
 </span>
 			</div>
 		</div>
@@ -192,7 +194,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		<div class="control-group hide" id="cancelNote">
 			<label class="control-label">处理备注: </label>
 			<div class="controls">
-				<input type="text" name="note" class="input-xlarge" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['cancel_note'];?>
+				<input type="text" name="note" class="input-medium" value="<?php echo $_smarty_tpl->tpl_vars['orders']->value['cancel_note'];?>
 " />
 			</div>
 		</div>

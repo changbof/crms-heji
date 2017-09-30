@@ -144,13 +144,12 @@
 		IntWebIM();
 	}
 	//autoChat();
-	$(document).ready(function() {
-		//$('#imjs-bar').hide();
-		
-		$(document).on('load',function(){dyniframesize()});
-		$(document).on('keydown',function(){refreshIframe()});
-
-	});
-
+    (function($) {
+        $(document).ready(function () {
+            //$('#imjs-bar').hide();
+            $(document).on('load', function (){dyniframesize()});
+            $(document).on('keydown', function (){refreshIframe()});
+        });
+    })(jQuery);
 </script>
 </html>

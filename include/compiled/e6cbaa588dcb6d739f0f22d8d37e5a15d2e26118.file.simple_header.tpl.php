@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.15, created on 2014-08-22 03:37:31
+<?php /* Smarty version Smarty-3.1.15, created on 2015-05-22 00:14:28
          compiled from "D:\Server\www\crms\include\template\simple_header.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1134053f64a7bc009f6-95609943%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:15072555e04645149d4-56429854%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'e6cbaa588dcb6d739f0f22d8d37e5a15d2e26118' => 
     array (
       0 => 'D:\\Server\\www\\crms\\include\\template\\simple_header.tpl',
-      1 => 1406818212,
+      1 => 1414431241,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1134053f64a7bc009f6-95609943',
+  'nocache_hash' => '15072555e04645149d4-56429854',
   'function' => 
   array (
   ),
@@ -22,9 +22,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.15',
-  'unifunc' => 'content_53f64a7bc97cf9_36777342',
+  'unifunc' => 'content_555e0464561341_74275408',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53f64a7bc97cf9_36777342')) {function content_53f64a7bc97cf9_36777342($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_555e0464561341_74275408')) {function content_555e0464561341_74275408($_smarty_tpl) {?><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -55,6 +55,32 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- script> if(self!=top){ window.open(self.location,'_top'); } </script -->
 
     <style type="text/css">
+        body.simple_body {
+            background: #fff;
+            background-image:none  ;
+        }
+        .simple_body h3{
+            font-size: 20px;
+            margin:0px;
+            color:#49AABF;
+            font-family: "Courier New" ;
+        }
+        .simple_body div.block{
+            margin:0;
+            padding:20px 20px 20px 0;
+        }
+        .simple_body .block-body{
+            margin:30px 20px;
+        }
+        .simple_body .control-label{
+            width:100px;
+        }
+        .simple_body .controls{
+            margin-left:120px;
+        }
+        footer{padding:1em 4em;}
+        footer hr{margin:1em 0em;}
+        footer p span.pull-right{margin:0em 0em 2em;}
         #line-chart {
             height:300px;
             width:800px;
@@ -75,6 +101,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             color:#fff;
             margin-left: 5px;
         }
+        .login-panel{margin-top:50px;margin-bottom:20px;}
+        img.img-rounded{margin-top:70px;}
     </style>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->

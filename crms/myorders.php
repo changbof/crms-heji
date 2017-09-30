@@ -39,6 +39,7 @@ $confirm_html = OSAdmin::renderJsConfirm("icon-remove");
 $page_html=Pagination::showPager("myorders.php?$sdate=$sdate&edate=$edate2&status=$status&ordersId=$ordersId&customerId=$customerId&search=$search",$page_no,$page_size,$row_count);
 $orders_list = array("shipped","received","chargeback","canceling","cancel");
 
+Template::assign ('LAST_MONTH_DAY',$LAST_MONTH_DAY);
 Template::assign ('_GET',$_GET);
 Template::assign ( 'orders_list', $orders_list );
 Template::assign ( 'myorders', $myorders );
