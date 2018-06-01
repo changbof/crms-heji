@@ -1,0 +1,131 @@
+<html>
+<head>
+<title>WebSocket</title>
+<meta charset="utf-8"/>
+
+<style>
+ html,body{font:normal 0.9em arial,helvetica;}
+ #log {width:440px; height:200px; border:1px solid #7F9DB9; overflow:auto;}
+ #msg {width:330px;}
+</style>
+<script src="./interface/jquery-min.js"></script>
+<script src="./interface/potato.js"></script>
+<script >
+
+//弹屏
+function init(){
+    connect("10.63.15.189",function(msg){
+        log(msg);
+    });
+    setPop("8008",function(msg){
+        log(msg);
+    });
+}
+
+function log(msg){ $("#log").append(msg); }
+function onkey(event){ if(event.keyCode==13){ send(); } }
+
+$(document).ready(function() {
+    init();
+
+    //置闲
+    $("#queueadd").click(function(){
+        var queue =  $('#param').val();
+        if (queue == "") {
+            alert('请输入话务组');
+            return ;
+        }
+        addQueue(queue,function(msg){
+        //handler code
+        alert (msg);
+        });
+    });
+
+    //置忙
+    $("#queueremove").click(function(){
+        var queue =  $('#param').val();
+        if (queue == "") {
+            alert('请输入话务组');
+            return ;
+        }
+        removeQueue(queue,function(msg){
+            //handler code
+            alert ( msg);
+        });
+    });
+    //软拨号
+    $("#autodial").click(function(){
+        var callerid =  $('#param').val();
+        if (callerid == "") {
+            alert('请输入呼出号码');
+            return ;
+        }
+        autoDial(callerid,function(msg){
+            alert(msg);
+        });
+    });
+
+    //挂断
+    $("#hangup").click(function () {
+        hangupCall(function (msg) {
+            alert(msg);
+        }) 
+    });
+
+    //所有队列信息
+    $("#queuestatus").click(function () {
+        queueStatus(function (msg) {
+            alert(msg);
+        }) 
+    });
+
+    //我的状态
+    $("#mystatus").click(function () {
+        var queue =  $('#param').val();
+        if (queue == "") {
+            alert('请输入话务组');
+            return ;
+        }
+        myStatus(queue, function (msg) {
+            alert(msg);
+        }) 
+    });
+
+
+    //监听
+    $("#spy").click(function(){
+        var target =  $('#param').val();
+        if (target == "") {
+            alert('请输入监听分机');
+            return ;
+        }
+        spyExtension(target,function(msg){
+            //handler code
+            alert( msg);
+        });
+    });
+
+});
+
+</script>
+</head>
+
+
+
+<body>
+ <h3>WebSocket</h3>
+ <br><br>
+ <div id="log"></div>
+ <label>参数</label>
+ <input id="param" width="80" type="text"/>
+ <button id="queueadd">置闲</button>
+ <button id="queueremove">置忙</button>
+ <button id="autodial">软拨号</button>
+ <button id="spy">监听</button>
+ <button id="hangup">挂断</button>
+ <button id="queuestatus">所有信息</button>
+ <button id="mystatus">我的状态</button>
+</body>
+
+</html>
+

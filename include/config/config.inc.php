@@ -15,12 +15,20 @@ define ( 'TEMPLATE_CONFIGS', ADMIN_BASE . '/config/' );
 define ( 'TEMPLATE_CACHE', ADMIN_BASE . '/cache/' );
 
 //OSAdmin常量
+<<<<<<< HEAD
 define ( 'ADMIN_URL' ,'http://127.0.0.1:810');
+=======
+define ( 'ADMIN_URL' ,'http://127.0.0.1:83');
+>>>>>>> 95c74793968c4188ac6d5e2baf39b7d0f75567e2
 define ( 'ADMIN_TITLE' ,'客户管理系统');
 define ( 'COMPANY_NAME' ,'和济 · 营养干预');
 
 //webim设置
+<<<<<<< HEAD
 define ( 'WEBIM_URL' ,'http://127.0.0.1:810');
+=======
+define ( 'WEBIM_URL' ,'http://127.0.0.1:83');
+>>>>>>> 95c74793968c4188ac6d5e2baf39b7d0f75567e2
 //注意：请配置webim数据源
 //配置文件：/data/db.php
 
