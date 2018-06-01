@@ -9,7 +9,7 @@
 	.btn-group small.btn{padding:4px 6px;}
     .popover{
         z-index:1060;
-        width:500px;
+        width:520px;
         min-height:300px;
         overflow:auto;
     }
@@ -261,6 +261,7 @@
 		}});
 	}
 
+    //订单物流状态跟踪
     var getWlMidtrace = function(data,nu) {
         var str_html = '<div id="wl-midtrace"><ul>';
         jQuery.each( data, function( i, json ) {
@@ -358,7 +359,9 @@
 		//日期时间选择器
 		$('.datetimepicker').datetimepicker({
 			language: 'zh-CN',
-			pickTime: false
+			pickTime: false ,
+            startDate: '<{$LAST_MONTH_DAY}>',
+            todayBtn: true
 		});	
 		//订单组方按钮事件
 		$('.oitem-add').on('click',function(event){

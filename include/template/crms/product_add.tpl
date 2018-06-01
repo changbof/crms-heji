@@ -36,7 +36,7 @@
 								<input type="radio" name="product_type" value="single" checked="true">营养素
 							</label>
 							<label class="radio inline">
-								<input type="radio" name="product_type" value="suite">套餐
+								<input type="radio" name="product_type" value="suite">代购
 							</label>
 						</div>
 					</div>

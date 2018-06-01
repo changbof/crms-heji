@@ -7,7 +7,7 @@ class Sms extends Base {
 	private static $columns = 'sms_id,sms_subject,sms_content,sms_category,sms_to,sms_to_vip,creator,create_time,status,send_time';
 
 	//类型
-	public static $category = array("预订","撤订","投诉");
+	public static $category = array("普通短信","定时短信","群发短信");
 
 	public static function getTableName(){
 		return parent::$table_prefix.self::$table_name;
@@ -149,7 +149,49 @@ class Sms extends Base {
 
 		return $result;
 	}
-	
+
+	/**
+	 * @param $sms_data
+	 * @return bool|int
+	 * 北京容大友信短信接口
+	 * 返回值	说明
+	 *    -2	提交的号码中包含不符合格式的手机号码
+	 *    -1	数据保存失败
+	 *    0		成功
+	 *    1001	用户名或密码错误
+	 *    1002	余额不足
+	 *    1003	参数错误，请输入完整的参数
+	 *    1004	其他错误
+	 *    1005	预约时间格式不正确
+	 */
+	public static function sendSmsforYX($sms_data){
+		$result = 0 ;
+		if (! $sms_data || ! is_array ( $sms_data )) {
+			return false;
+		}
+		if( $sms_data['sms_to']=='' || $sms_data['sms_content'] =='' ){
+			return false;
+		}
+
+		$url = SMS_SEND_URL ;
+		$data = array(
+			'username'	=> SMS_USERNAME,
+			'password'	=> SMS_PASSWORD,
+			'mobile'	=> $sms_data['sms_to'], //接收号码
+			'content'	=> iconv( "UTF-8", "gb2312//IGNORE" , $sms_data['sms_content']),
+			'senddate'	=> '',
+			'batchID'	=>''
+		);
+		$result = self::postDataByUrl($url, $data);
+		//添加发送记录
+		if(strlen(trim($result)) >= 1) {
+			$sms_data['send_time'] = time();
+			$sms_data['status'] = $result;
+			//增加短信发送记录
+			self::addSms($sms_data);
+		}
+		return $result;
+	}
 	public static function postDataByUrl($url, $data){     
 		$ch = curl_init();
 		$timeout = 30000;      

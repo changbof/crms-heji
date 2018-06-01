@@ -11,6 +11,7 @@ $shipped_express = $express_no = $orders_address = $o_address = $orders_tel = $o
 $customer_type='';
 $nutrientscase='';
 $express_no='';
+$doModify=true;
 
 //沟通记录
 $sale_id = $sale_date = $sale_product = $sale_content = $sale_analysis = $sale_effect = $orders_id = $vested = $remark = '';
@@ -169,6 +170,11 @@ if ( $method=="ajax_modifyOrders" ) {
 		}
 		$cnt = Orders::updateOrders( $ordersId, $update_data );
 		if ($cnt>0) {
+            //更新订单地址到客户信息的地址
+            if($doModify){
+                $cid = $orders['customer_id'];
+                Customer::updateCustomer($cid,array('address'=>$orders_address));
+            }
 			SysLog::addLog ( UserSession::getUserName(), 'UPDATE', 'Orders' ,$ordersId, json_encode($orders) );
 			$result = array("result"=>1,"msg"=> "订单修改成功,请注意跟踪订单状态,及时处理!");
 		}else{
@@ -253,12 +259,20 @@ if ( $method=="ajax_processOrders" ) {
 		}
 		if($orders_address!=''){
 			$orders_data['orders_address'] = $orders_address;
+            //更新订单地址到客户信息表
+            if($doModify){
+                $cid = $orders['customer_id'];
+                Customer::updateCustomer($cid,array('address'=>$orders_address));
+            }
 		}
 
 		$cnt = Orders::updateOrders( $ordersId, $orders_data);
 
 		if ($cnt>0) {
-
+            //更新订单地址到客户信息的地址
+            if($orders_address!=''&& $doModify){
+                Customer::updateCustomer($customerId,array('address'=>$orders_address));
+            }
             //根据订单状态对应到客户分类来计算过期日期
             if($customer_type!=''){
                 $sp_expiration = SystemParam::getValue($customer_type);

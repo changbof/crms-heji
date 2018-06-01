@@ -83,7 +83,11 @@ class Customer extends Base{
 		}
 		$db=self::__instance();
 		$condition = array(
-			"mobile" 	=> $phone,
+			"status[!]" => self::DELETED,
+      "OR" => array(
+				"mobile" 	=> $phone,
+        "telphone"  => $phone,
+        ),
 			"ORDER" 	=> "id",
 			"LIMIT" 	=> array(0, 1),
 		);
@@ -109,6 +113,21 @@ class Customer extends Base{
 		return array ();
 	}
 
+    /*
+     * $telField => 'mobile'| 'telphone'| 'link_phone'
+     */
+    public static function getTelByCustomerId( $customer_id,$telField='mobile' ) {
+        if(!$customer_id){
+            return false;
+        }
+
+        $db=self::__instance();
+        $condition = array(
+            "id" => $customer_id
+        );
+        return  $db -> get ( self::getTableName(), $telField, $condition );
+
+    }
 	/* ******************************************************
 	 *
 	 + 随机平均分配客户到坐席(销售代表)
@@ -236,14 +255,14 @@ class Customer extends Base{
 			$where =" where UNIX_TIMESTAMP(expiration_date) < ".$date;
 			$sql = "update ".self::getTableName()."
 							set status ='".self::REOPEN."',
-                                last_vested = vested ,
-                                return_date = '".$datetime."',
-                                update_date = '".$datetime."',
-                                updater = ".$updater.",
-                                createby = 'inner',
-                                vested = null,
-                                expiration_date = null ,
-                                assign_date = null " .$where ;
+									last_vested = vested ,
+									return_date = '".$datetime."',
+									update_date = '".$datetime."',
+									updater = ".$updater.",
+									createby = 'inner',
+									vested = null,
+									expiration_date = null ,
+									assign_date = null " .$where ;
 
       $db=self::__instance();
 			$id = $db->query ( $sql )->fetch();

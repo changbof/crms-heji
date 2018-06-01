@@ -445,8 +445,8 @@
 				success: function(json, status) {
 					bootbox.alert(json.msg,function(){
 						if(json.result==1){
-								//成功则修改下面表单不能更改
-
+								//成功则隐藏“保存”按钮，防止再次保存
+                                $('#postme').hide();
 							}
 							window.setTimeout(function(){
 								bootbox.hideAll();

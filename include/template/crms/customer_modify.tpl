@@ -71,7 +71,7 @@
 	    margin: 0px;
 	    font: 12px/25px Helvetica Neue,Helvetica,Arial,Calibri,Tahoma,Verdana,sans-serif;
 	    color: #222;
-	    z-index: 99999999;
+	    z-index: 500;
 	    background: #fff;
 	}
 	ul.fast-bar li{
@@ -84,6 +84,14 @@
 	}
 	ul.fast-bar > li:hover {
         background: #fff;
+    }
+
+    .btn-group small.btn{padding:4px 6px;}
+    .popover{
+        z-index:1060;
+        width:520px;
+        min-height:300px;
+        overflow:auto;
     }
 
 	<{if $p}>
@@ -173,7 +181,10 @@
 						<div class="control-group info">
 							<label class="control-label"><em>*</em>联系电话</label>
 							<div class="controls">
-								<input type="text" class="input-medium" name="mobile_0" id="mobile_0" required="true" <{if $user_info.user_group!=1}>readonly="true"<{/if}> value="<{$customer.mobile|substr_replace:'****':'3':'-1'}>" rel="tooltip" title="双击此处'电话号码'即可外拨电话!" /><input type="hidden" name="mobile" id="mobile"  value="<{$customer.mobile}>" />
+								<div class="input-append">
+									<input type="text" class="input-medium" name="mobile_0" id="mobile_0" required="true" <{if $user_info.user_group!=1}>readonly="true"<{/if}> value="<{$customer.mobile|substr_replace:'****':'3':'-1'}>" rel="tooltip" title="双击此处'电话号码'即可外拨电话!" /><input type="hidden" name="mobile" id="mobile"  value="<{$customer.mobile}>" />
+									<span class="add-on btn send-sms" title="给此号码发送短信" data-value="<{$customer.mobile}>"><i class="icon-envelope"></i> </span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -181,7 +192,10 @@
 						<div class="control-group info">
 							<label class="control-label">联系电话2</label>
 							<div class="controls">
-								<input type="text" class="input-medium" name="telphone_0" id="telphone_0" <{if $user_info.user_group!=1}>readonly="true"<{/if}> value="<{$customer.telphone|substr_replace:'****':'3':'-1'}>" rel="tooltip" title="双击此处'电话号码'即可外拨电话!" /><input type="hidden" name="telphone" id="telphone" value="<{$customer.telphone}>" />
+								<div class="input-append">
+									<input type="text" class="input-medium" name="telphone_0" id="telphone_0" <{if $user_info.user_group!=1}>readonly="true"<{/if}> value="<{$customer.telphone|substr_replace:'****':'3':'-1'}>" rel="tooltip" title="双击此处'电话号码'即可外拨电话!" /><input type="hidden" name="telphone" id="telphone" value="<{$customer.telphone}>" />
+									<span class="add-on btn send-sms" title="给此号码发送短信" data-value="<{$customer.telphone}>"><i class="icon-envelope"></i></span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -514,7 +528,7 @@
 						<label>备注</label>	
 						<textarea class="input input-xlarge" name="remark" id="remark" rows="1"></textarea>
 						<label>沟通情况</label>
-						<{html_options name="customer_type" id="customer_type" title="请描述本次沟通情况"  readonly=$readonly options=$customertype_options strict='1' odisabled=$op_disabled selected=$customer.type }>
+						<{html_options name="customer_type" id="customer_type" title="请描述本次沟通情况" readonly=$readonly options=$customertype_options strict='1' odisabled=$op_disabled selected=$customer.type }>
 						<input type="hidden" name="method" id="method" value="ajax_addSaleLog" />
 						<input type="hidden" name="sale_id" id="saleId" value="" />
 						<div class="btn-toolbar">
@@ -567,7 +581,7 @@
 						<td class="hide"><{$order.id}></td>
 						<td><{$order.orders_no}></td>
 						<td><{$order.orders_date}></td>
-						<td><{$order.orders_title}></td>
+						<td><small class="btn btn-link oitem-view" data-url="orders_verify.php?a=view&customerId=<{$order.customer_id}>&ordersId=<{$order.id}>" title= "查看订单明细"><{$order.orders_title}></small></td>
 						<td><{$order.orders_num}></td>
 						<td><{$order.payment_sum}></td>
 						<td><{$order.gift}></td>
@@ -578,101 +592,139 @@
 			</table>
 		</div>
 	</div>
-	<!-- div class="tab-pane" id="salelog">
-		<div class="row-fluid">
-			<div class="span8">
-				<table class="table table-striped table-bordered table-hover" id="salelog_list" style="margin-top:30px;">
-					<thead>
-						<tr>
-							<th class="hide">#</th>
-							<th>沟通日期</th>
-							<th>沟通内容</th>
-							<th>客户分析</th>
-							<th>备注</th>
-						</tr>
-					</thead>
-					<tbody>
-						<{foreach name=sale from=$salelogs item=sale}>				 
-						<tr>
-							<td class="hide"><{$sale.id}></td>
-							<td><{$sale.sale_date}></td>
-							<td><{$sale.sale_content}></td>
-							<td><{$sale.sale_analysis}></td>
-							<td>[<{$sale.sale_effect}>] <{$sale.remark}></td>
-						</tr>
-						<{/foreach}>
-					</tbody>
-				</table>
-			</div>
-			<div class="span4">
-				<h4> 沟通记录:</h4>
-				<form data-async action="<{$smarty.const.ADMIN_URL}>/ajax/orders.php" method="post" name="form2" id="salelog-form" data-target="salelog_list">
-					<label>沟通简要</label>	
-					<textarea class="input input-xlarge" name="sale_content" id="sale_content" rows="3" required="true"></textarea>
-					<label>客户分析</label>	
-					<textarea class="input input-xlarge" name="sale_analysis" id="sale_analysis" rows="2"></textarea>
-					<label>备注</label>	
-					<textarea class="input input-xlarge" name="remark" id="remark" rows="1"></textarea>
-					<label>沟通情况</label>
-					<{html_options name="customer_type" id="customer_type" title="请描述本次沟通情况" options=$customertype_options selected=$customer.type }>
-					<input type="hidden" name="method" id="method" value="ajax_addSaleLog" />
-					<input type="hidden" name="sale_id" id="saleId" value="" />
-					<div class="btn-toolbar">
-					<{if $customer.vested == $user_info.user_id}>
-						<button type="submit" class="btn btn-primary"><i class="icon-save"></i> 保存</button>
-						<input type="reset" class="btn" value="取消" />
-						<a href="" class="btn hide" id="btn-addOrders"><i class="icon-plus-sign"></i> 新增订购 </a>
-					<{/if}>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="tab-pane" id="orders">
-		<div class="block-heading"><strong><{$customer.name}></strong> 最近10次消费记录:
-		<{if $customer.vested == $user_info.user_id}>
-			<span class="pull-right btn-group">
-				<small class="btn" id="orders_add"><i class="icon-plus-sign"></i> 新增订购</small>
-				<small class="btn" id="orders_modify"><i class="icon-edit"></i> 修改</small>
-				<small class="btn" id="orders_cancel"><i class="icon-ban-circle"></i> 取消</small>
-				<small class="btn" id="orders_process"><i class="icon-ok-circle hide"></i> 确认订单</small>
-				<small class="btn" id="orders_remove"><i class="icon-trash"></i> 删除</small>
-			</span>
-		<{/if}>
-		</div>
-		<table class="table table-striped table-bordered table-hover" id="orders_list">
-			<thead>
-				<tr>
-					<th class="hide">id</th>
-					<th>订单编号</th>
-					<th>订购日期</th>
-					<th>订单标题</th>
-					<th>数量</th>
-					<th>金额(元)</th>
-					<th>赠品</th>
-					<th>状态</th>
-				</tr>
-			</thead>
-			<tbody>
-				<{foreach name=order from=$orders item=order}>				 
-				<tr>
-					<td class="hide"><{$order.id}></td>
-					<td><{$order.orders_no}></td>
-					<td><{$order.orders_date}></td>
-					<td><{$order.orders_title}></td>
-					<td><{$order.orders_num}></td>
-					<td><{$order.payment_sum}></td>
-					<td><{$order.gift}></td>
-					<td><{$ordersstatus_options[$order.status]}></td>
-				</tr>
-				<{/foreach}>
-			</tbody>
-		</table>
-	</div -->
 </div>
 
 <script type="text/javascript">
 	var status_array = <{$ordersstatus_options|json_encode}>;
+
+    //订单物流状态跟踪
+    var getWlMidtrace = function(data,nu) {
+        var str_html = '<div id="wl-midtrace"><ul>';
+        jQuery.each( data, function( i, json ) {
+            str_html += '<li><span class="wl-stream-time">'+json['time']+'</span>';
+            str_html += '<span class="wl-stream-text">'+json['context']+'</span></li>';
+        });
+        str_html += '</ul></div>';
+        return str_html;
+    };
+    //跟踪处理订单状态及明细查看
+    function openModalforProcess(url,title){
+        var header = url.indexOf('_verify')>0?(url.indexOf('a=view')>0?'查看订单: ':'订单审核: '):'订单跟踪处理: ';
+        var formId = url.split(".")[0];
+        var btn = [{"label" : "关闭","class" : "btn",}];
+        if(url.indexOf('a=view')<0){
+            btn = [{
+                "label" : "确定",
+                "class" : "btn-primary",
+                "callback": function(ev) {
+                    var $form = $('#'+formId+'_form');
+                    $.ajax({
+                        type: $form.attr('method'),
+                        url: $form.attr('action'),
+                        data: $form.serialize(),
+                        dataType:'json',
+                        success: function(json, status) {
+                            if(json.result==1){
+                                bootbox.alert(json.msg,function(){
+                                    window.location.reload(true);
+                                });
+                            }else{
+                                bootbox.alert(json.msg);
+                            }
+                        }
+                    });
+                    ev.preventDefault();
+                }
+            },{"label" : "关闭", "class" : "btn"}]
+        }
+        jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate){
+			var bbd=bootbox.dialog(rspDate,	btn, {"header":header + title,"classes": "modal-large"});
+			bbd.on('hide',function(){
+			    $('#example').popover('destroy');
+			});
+        //订单change事件
+        bbd.find('input:radio[name=status]').on('change',function(){
+            if( $.inArray( $(this).val(),['canceling','refused']) >=0 ){
+                $('#cancelNote').attr("required","true").show();
+            }else{
+                $('#cancelNote').removeAttr("required").hide();
+            }
+        });
+        bbd.find("#example").on('mouseenter',function(){
+            $this = $(this);
+            if($(this).attr('data-show')!=1) {
+                $this.popover({content:'正在努力加载中...'}).popover('show');
+                var expressNo = $(this).attr("data-v");
+                var formData = 'method=ajax_expresstrack&express_no=' + expressNo;
+                jQuery.ajax({
+                    type: 'get',
+                    url: '<{$smarty.const.ADMIN_URL}>/ajax/orders.php',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['status'] > 0) {
+                            $this.attr('data-show', '1');
+                            if($this.data('popover')!=null){
+                                $this.popover('hide');
+                                $this.removeData('popover');
+                            }
+                            $this.attr('data-content', getWlMidtrace(data['data'], expressNo));
+                            $this.popover('show');
+                        }else {
+                            $this.attr('data-show', '0');
+                            $this.attr('data-content','还没有物流信息哦!');
+                            $this.popover('show');
+                        }
+                    }
+                });
+            }else {
+                $this.popover('show');
+            }
+        }).on('mouseleave',function(event) {
+            $(this).popover('hide');
+        });
+    }});
+    }
+	//发短信
+	function openModalforSendSMS(url){
+		var btn = [{"label" : "关闭"}];
+		btn = [{
+			"label" : "发送",
+			"class" : "btn-primary",
+			"callback": function(ev) {
+				var formData = "status=determine&ordersId="+$('#ordersId').val()+"&method=ajax_processOrders";
+				$.ajax({
+					type: 'GET',
+					url: $('#orders_item_form').attr('action'),
+					data: formData,
+					dataType:'json',
+					success: function(json, status) {
+						if(json.result==1){
+							bootbox.alert(json.msg,function(){
+								window.location.reload(true);
+							});
+						}else{
+							bootbox.alert(json.msg);
+						}
+					}
+				});
+				ev.preventDefault();
+			}
+		},{"label" : "关闭", "class" : "btn"}];
+
+		jQuery.ajax({type:'GET',url:url,dataType:'html',success:function(rspDate) {
+			var bbd=bootbox.dialog(rspDate,	btn, {"classes": "modal-large"});
+			bbd.find(".spinner").spinner();
+			bbd.find('.selectpicker').selectpicker();
+			// 产品change事件
+			bbd.find('#product_id').on('change',function(){
+				var pName = $(this).find('option:selected').text();
+				$('#productName').val(pName);
+				var pSpec = $(this).find('option:selected').attr('data-spec');
+				$('#item_spec').val(pSpec);
+			});
+	}});
+	}
 
 	//组方
 	function openModalforOrdersItem(url){
@@ -695,7 +747,6 @@
 						}else{
 							bootbox.alert(json.msg);
 						}
-
 					}
 				});
 				ev.preventDefault();
@@ -849,7 +900,7 @@
 				});
 				bbd.find('.selectpicker').selectpicker();
 				bbd.find('textarea').autosize();
-				bbd.find('#orders_tel_0').on('change',function(){//隐藏电话号码后面4位,以"*"代替
+				bbd.find('#orders_tel_0').on('change',function(){ //隐藏电话号码后面4位,以"*"代替
 					var v = $(this).val();
                     if(v.indexOf('*')==-1){
                         var tmpid = $(this).attr("id");
@@ -857,7 +908,6 @@
                         $('#'+oid).val(v);
                         $(this).val(substr_replace(v,"****",3,-1));
                     }
-
 				});
 			}
 			bbd.find('input:radio[name=status]').on('change',function(){
@@ -1143,6 +1193,25 @@
 			}
 		});
 
+		//短信发送
+		$('span.send-sms').on('click',function(){
+			if($(this).attr('data-value')==''){
+				bootbox.alert("对方号码不是一个正确的手机号码，不能发送手机短信息！");
+				return;
+			}
+			var sendTo = $(this).attr('data-value') ;
+			var url = "sms_send.php?sendTo="+sendTo;
+			openModalforSendSMS(url);
+			return false;
+		});
+
+        //查看订单状态
+        var cusName = '<{$customer.name}>';
+        $('.oitem-view').on('click',function(){
+            var url = $(this).attr('data-url') ;
+            var _title = cusName;
+            openModalforProcess(url,_title);
+        });
 	});
 
 </script>

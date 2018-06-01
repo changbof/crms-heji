@@ -354,4 +354,32 @@ class Common {
         }
         return $pos_val-1;
     }
+    /** 
+	* $sourceArr 原来的数组 
+	* $key 主键 
+	* $parentKey 与主键关联的父主键 
+	* $childrenKey 生成的孩子的键名 
+	* 
+	*/  
+	  
+	public static function arrayToTree($sourceArr, $key, $parentKey, $childrenKey)  
+	{  
+	    $tempSrcArr = array();  
+	    foreach ($sourceArr as  $v)  
+	    {  
+	        $tempSrcArr[$v[$key]] = $v;  
+	    }  
+	    $i = 0;  
+	    $count = count($sourceArr);  
+	    for($i = ($count - 1); $i &gt;=0; $i--)  
+	    {  
+	        if (isset($tempSrcArr[$sourceArr[$i][$parentKey]]))  
+	        {  
+	           $tArr = array_pop($tempSrcArr);  
+	           $tempSrcArr[$tArr[$parentKey]][$childrenKey] = (isset($tempSrcArr[$tArr[$parentKey]][$childrenKey]) &amp;&amp; is_array($tempSrcArr[$tArr[$parentKey]][$childrenKey])) ? $tempSrcArr[$tArr[$parentKey]][$childrenKey] : array();  
+	           array_push ($tempSrcArr[$tArr[$parentKey]][$childrenKey], $tArr);  
+	        }  
+	    }  
+	    return $tempSrcArr;  
+	} 
 }

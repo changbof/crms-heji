@@ -10,7 +10,7 @@ $current_user_id = $current_user_info['user_id'];
 
 //START 数据库查询及分页数据
 $row_count = Product::count ($keyword);
-$page_size = PAGE_SIZE;
+$page_size = 30;
 $page_no=$page_no<1?1:$page_no;
 $total_page=$row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
 $total_page=$total_page<1?1:$total_page;
@@ -40,7 +40,7 @@ if ($method == 'del' && ! empty ( $product_id )) {
 
 
 $confirm_html = OSAdmin::renderJsConfirm("icon-remove");
-$page_html=Pagination::showPager("products.php?k=$k&keyword=$keyword",$page_no,PAGE_SIZE,$row_count);
+$page_html=Pagination::showPager("products.php?k=$k&keyword=$keyword",$page_no,$page_size,$row_count);
 
 Template::assign ('_GET',$_GET);
 Template::assign ( 'page_html', $page_html );
